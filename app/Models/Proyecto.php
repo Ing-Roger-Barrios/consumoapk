@@ -1,0 +1,77 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+class Proyecto extends Model
+{
+    use HasFactory;
+
+    protected $table = 'proyectos'; // porque usas nombre en español
+
+    protected $fillable = [
+        'nombre',
+        'cliente',
+        'ubicacion',
+        'monto',
+        'user_id', // el contractor que creó el proyecto
+    ];
+
+    // Relación: el contractor dueño del proyecto
+    public function contractor()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    // Relación: muchos a muchos con residentes (que también son User)
+    public function residentes()
+    {
+        return $this->belongsToMany(User::class, 'proyecto_residente', 'proyecto_id', 'residente_id');
+    }
+
+
+    // Materiales presupuestados (de contrato)
+    public function materialesContrato()
+    {
+        return $this->hasMany(MaterialContrato::class, 'proyecto_id');
+    }
+
+    // Materiales ejecutados (reales)
+    public function materialesEjecucion()
+    {
+        return $this->hasMany(MaterialEjecucion::class, 'proyecto_id');
+    }
+    // Mano de obra contrato
+    public function manoObraContrato()
+    {
+        return $this->hasMany(ManoObraContrato::class);
+    }
+
+    // Subcontratos
+    public function subcontratos()
+    {
+        return $this->hasMany(Subcontrato::class);
+    }
+    // Gastos generales
+    public function gastosGenerales()
+    {
+        return $this->hasMany(GastoGeneral::class);
+    }
+    // Beneficios sociales
+    public function beneficiosSociales()
+    {
+        return $this->hasMany(BeneficioSocial::class);
+    }
+    // Impuesto a las Transferencias
+    public function it()
+    {
+        return $this->hasOne(IT::class);
+    }
+    // Facturas IVA
+    public function ivaFacturas()
+    {
+        return $this->hasMany(IvaFactura::class);
+    }
+}
