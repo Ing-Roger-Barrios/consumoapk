@@ -1,0 +1,38 @@
+services:
+  - type: web
+    name: costeo
+    env: php
+    region: oregon  # o la región que elijas
+    buildCommand: "composer install --optimize-autoloader --no-dev && php artisan migrate --force"
+    startCommand: "php -S 0.0.0.0:$PORT -t public/"
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: APP_URL
+        value: https://mi-app-laravel.onrender.com  # Render te dará la URL real después
+      - key: APP_KEY
+        generateValue: true  # Render generará una clave segura
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_HOST
+        fromDatabase:
+          name: mi-app-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: mi-app-db
+          property: port
+      - key: DB_DATABASE
+        fromDatabase:
+          name: mi-app-db
+          property: database
+      - key: DB_USERNAME
+        fromDatabase:
+          name: mi-app-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: mi-app-db
+          property: password
