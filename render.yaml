@@ -11,7 +11,7 @@ services:
       - key: APP_DEBUG
         value: "false"
       - key: APP_URL
-        value: https://mi-app-laravel.onrender.com  # Render te dará la URL real después
+        value: https://consumoapk.onrender.com/  # Render te dará la URL real después
       - key: APP_KEY
         generateValue: true  # Render generará una clave segura
       - key: DB_CONNECTION
