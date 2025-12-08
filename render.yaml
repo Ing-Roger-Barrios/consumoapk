@@ -1,9 +1,14 @@
 services:
   - type: web
-    name: costeo
+    name: consumoapk
     env: php
-    region: oregon  # o la región que elijas
-    buildCommand: "composer install --optimize-autoloader --no-dev && php artisan migrate --force"
+    region: oregon
+    buildCommand: |
+      sudo apt-get update
+      sudo apt-get install -y libpq-dev
+      docker-php-ext-install pdo_pgsql pgsql
+      composer install --optimize-autoloader --no-dev
+      php artisan migrate --force
     startCommand: "php -S 0.0.0.0:$PORT -t public/"
     envVars:
       - key: APP_ENV
@@ -11,9 +16,9 @@ services:
       - key: APP_DEBUG
         value: "false"
       - key: APP_URL
-        value: https://consumoapk.onrender.com/  # Render te dará la URL real después
+        value: https://consumoapk-1.onrender.com/
       - key: APP_KEY
-        generateValue: true  # Render generará una clave segura
+        generateValue: true
       - key: DB_CONNECTION
         value: pgsql
       - key: DB_HOST
