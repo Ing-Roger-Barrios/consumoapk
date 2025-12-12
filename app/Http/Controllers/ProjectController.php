@@ -127,7 +127,8 @@ class ProjectController extends Controller
             abort(403, 'Acceso denegado');
         }
 
-        // Materiales de contrato: 1 por descripción
+
+         // Materiales de contrato: 1 por descripción
         $contrato = $proyecto->materialesContrato->keyBy('descripcion');
 
         // Materiales en ejecución: agrupar y sumar por descripción
@@ -178,27 +179,70 @@ class ProjectController extends Controller
                     'compras' => $e['compras'] ?? 0, // útil para auditoría
                 ],
                 'diferencias' => [
-                    'cantidad' => $cantidadE - $cantidadC,
-                    'precio' => $precioE - $precioC,
-                    'total' => $totalE - $totalC,
+                    'cantidad' => $cantidadC - $cantidadE,
+                    'precio' =>   $precioC - $precioE,
+                    'total' =>  $totalC - $totalE ,
                 ],
             ];
         });
 
+        function normalizeNumber($number)
+        {
+            // Si contiene coma decimal (formato latino)
+            if (strpos($number, ',') !== false) {
+                // Quitar puntos de miles
+                $number = str_replace('.', '', $number);
+                // Cambiar coma decimal a punto
+                $number = str_replace(',', '.', $number);
+            }
+
+            return (float)$number;
+        }
+
+
+        $matCont = round(normalizeNumber($proyecto->materialesContrato->sum('total')), 2);
+        $manodeobra = round(normalizeNumber($proyecto->manoObraContrato->sum('monto_presupuestado')), 2);
+        $equipoMaqui = round(normalizeNumber($proyecto->equipoMaquinariaContrato->sum('total')), 2);
+        $beneficiosSoc = round(normalizeNumber($manodeobra * 0.55), 2);
+        $iva = round(normalizeNumber(0.1494 * ($manodeobra + $beneficiosSoc)), 2);
+        $totalManodeObra = round(normalizeNumber($manodeobra + $beneficiosSoc + $iva), 2);
+
+        $herrMenores = round(normalizeNumber(0.05 * $totalManodeObra), 2);
+        $totalHerrEquipo = round(normalizeNumber( $equipoMaqui + $herrMenores), 2);
+
+        $subtotal = round(normalizeNumber($matCont + $totalManodeObra + $totalHerrEquipo), 2);
+       //$subtotal = normalizeNumber(211321.68 + 164220.81 + 11328.46, 2);
+        $gastosgral = round(normalizeNumber(0.1 * $subtotal), 2);
+
+        $it = round(normalizeNumber(0.0309 * $proyecto->monto), 2);
+
+        //$gastosgral = round(0.1 * $subtotal, 2);
+        $utilidad = round(normalizeNumber($proyecto->monto - ($gastosgral + $subtotal + $it)), 2);
+
+        $proytotal = round(normalizeNumber($utilidad + $gastosgral + $subtotal + $it), 2);
+
+
+
+        
+
         // Total de mano de obra directa
         $totalManoObraDirecta = $proyecto->manoObraContrato->sum('monto_presupuestado');
         // Total de mano de obra ejecutada
-        $totalManoObraEjecucion = $proyecto->materialesEjecucion->sum('total');
+        //$totalManoObraEjecucion = $proyecto->totalManoObraEjecucion->sum('total');
         
         // Total de subcontratos
         $totalSubcontratos = $proyecto->subcontratos->sum('monto_acordado');
 
         //total ejecutado
-        $totalEjecutado = $totalManoObraEjecucion + $totalSubcontratos;
+        $totalEjecutado =  $totalSubcontratos;       //$totalManoObraEjecucion +
         //facturas
         $facturas = $proyecto->ivaFacturas()->latest()->get();
 
-        return view('project', compact('proyecto', 'comparacion', 'totalManoObraDirecta', 'totalEjecutado', 'facturas'));
+        
+
+
+        return view('project', compact('proyecto', 'comparacion', 'totalManoObraDirecta', 'totalEjecutado', 
+                    'facturas','matCont', 'manodeobra','beneficiosSoc', 'totalHerrEquipo', 'equipoMaqui', 'subtotal', 'gastosgral', 'utilidad', 'iva', 'it','proytotal'   ));
     }
     public function store(Request $request)
     {
@@ -319,9 +363,9 @@ class ProjectController extends Controller
                     'compras' => $e['compras'] ?? 0, // útil para auditoría
                 ],
                 'diferencias' => [
-                    'cantidad' => $cantidadE - $cantidadC,
-                    'precio' => $precioE - $precioC,
-                    'total' => $totalE - $totalC,
+                    'cantidad' => $cantidadC - $cantidadE,
+                    'precio' =>   $precioC - $precioE,
+                    'total' =>  $totalC - $totalE ,
                 ],
             ];
         });

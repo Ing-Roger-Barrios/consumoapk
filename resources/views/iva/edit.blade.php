@@ -72,13 +72,13 @@
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Comprobante actual</label>
                         @if($factura->comprobante)
                             @if(pathinfo($factura->comprobante, PATHINFO_EXTENSION) === 'pdf')
-                                <a href="{{ asset('storage/' . $factura->comprobante) }}" target="_blank"
+                                <a href="{{ $factura->comprobante }}" target="_blank"
                                    class="text-blue-500 hover:underline">
                                     Ver documento PDF
                                 </a>
                             @else
-                                <a href="{{ asset('storage/' . $factura->comprobante) }}" target="_blank">
-                                    <img src="{{ asset('storage/' . $factura->comprobante) }}" 
+                                <a href="{{ $factura->comprobante }}" target="_blank">
+                                    <img src="{{ $factura->comprobante }}" 
                                          alt="Comprobante" class="w-32 h-32 object-cover rounded border mt-2">
                                 </a>
                             @endif

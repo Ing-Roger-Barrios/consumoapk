@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
+ 
 use Illuminate\Support\Facades\Auth;
 use App\Models\Proyecto;
 use App\Models\MaterialEjecucion;
+ 
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use App\Services\CloudinaryService;
 
 class MaterialEjecucionController extends Controller
 {
@@ -38,7 +43,7 @@ class MaterialEjecucionController extends Controller
     /**
      * Guardar un nuevo material en ejecución.
      */
-    public function store(Request $request, Proyecto $proyecto)
+    public function store(Request $request, Proyecto $proyecto,  CloudinaryService $cloudinary)
     {
         $user = Auth::user();
         // Verificar si el usuario tiene acceso al proyecto
@@ -72,10 +77,30 @@ class MaterialEjecucionController extends Controller
 
         // Manejar subida de comprobante
         $comprobantePath = null;
-        if ($request->hasFile('comprobante')) {
+          
+        /*if ($request->hasFile('comprobante')) {
             // Guardar en storage/app/public/comprobantes/proyectos/{id}/
             $comprobantePath = $request->file('comprobante')->store('comprobantes/proyectos/' . $proyecto->id, 'public');
+        }*/
+        
+        /*if ($request->hasFile('comprobante')) {
+
+            //$uploaded = $request->file('comprobante')->storeOnCloudinary('proyectos/'.$proyecto->id);
+            $uploaded = Cloudinary::upload()
+
+            $comprobantePath = $uploaded->getSecurePath();  // URL pública
+        }*/
+
+        // Asegúrate de que el input del formulario se llame 'file'
+        if ($request->hasFile('comprobante')) {
+
+            $url = $cloudinary->upload($request->file('comprobante'),'comprobantes/proyectos/' . $proyecto->id );
+
+            $comprobantePath = $url;
         }
+        
+         
+
 
         MaterialEjecucion::create([
             'proyecto_id' => $proyecto->id,
@@ -92,7 +117,8 @@ class MaterialEjecucionController extends Controller
         return redirect()->route('mat.compra', [
                                     'proyecto' => $proyecto,
                                     'descripcion' => $descripcion,
-                                    'unidad' => $unidad
+                                    'unidad' => $unidad,
+                                    'comprobante'=> $comprobantePath
                                 ])->with('success', 'Material en ejecución registrado exitosamente.');
     }
 
@@ -124,7 +150,7 @@ class MaterialEjecucionController extends Controller
     /**
      * Actualizar material existente.
      */
-    public function update(Request $request, Proyecto $proyecto, MaterialEjecucion $material)
+    public function update(Request $request, Proyecto $proyecto, MaterialEjecucion $material, CloudinaryService $cloudinary)
     {
         $user = Auth::user();
         // Verificar si el usuario tiene acceso al proyecto
@@ -157,12 +183,18 @@ class MaterialEjecucionController extends Controller
         $comprobantePath = $material->comprobante; // mantener el existente
 
         // Si se sube un nuevo comprobante
-        if ($request->hasFile('comprobante')) {
+        /*if ($request->hasFile('comprobante')) {
             // Eliminar el anterior si existe
             if ($material->comprobante) {
                 Storage::disk('public')->delete($material->comprobante);
             }
             $comprobantePath = $request->file('comprobante')->store('comprobantes/proyectos/' . $proyecto->id, 'public');
+        }*/
+        if ($request->hasFile('comprobante')) {
+
+                 $url = $cloudinary->upload($request->file('comprobante'),'comprobantes/proyectos/' . $proyecto->id );
+
+            $comprobantePath = $url;
         }
 
         $material->update([

@@ -62,7 +62,7 @@
                     @if($material->comprobante)
                         <div class="mb-4">
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Comprobante actual</label>
-                            <a href="{{ asset('storage/' . $material->comprobante) }}" target="_blank"
+                            <a href="{{ $material->comprobante }}" target="_blank"
                                 class="text-blue-500 hover:underline">
                                 Ver archivo
                             </a>

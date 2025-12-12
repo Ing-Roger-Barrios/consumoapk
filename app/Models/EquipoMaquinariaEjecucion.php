@@ -3,14 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class MaterialEjecucion extends Model
+class EquipoMaquinariaEjecucion extends Model
 {
-    use HasFactory;
-
-    protected $table = 'materiales_en_ejecucion';
-
+    protected $table = 'equipo_maquinaria_ejecucion';
+    
     protected $fillable = [
         'proyecto_id',
         'descripcion',
@@ -19,11 +16,16 @@ class MaterialEjecucion extends Model
         'precio_unit',
         'total',
         'comprobante',
-         
+        'notas'
+    ];
+
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
     ];
 
     public function proyecto()
     {
-        return $this->belongsTo(Proyecto::class, 'proyecto_id');
+        return $this->belongsTo(Proyecto::class);
     }
 }

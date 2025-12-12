@@ -7,7 +7,7 @@ use App\Models\GastoGeneral;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-
+use App\Services\CloudinaryService;
 
 class GastoGeneralController extends Controller
 {
@@ -25,7 +25,7 @@ class GastoGeneralController extends Controller
         return view('gastos.create', compact('proyecto', 'categorias'));
     }
 
-    public function store(Request $request, Proyecto $proyecto)
+    public function store(Request $request, Proyecto $proyecto,  CloudinaryService $cloudinary )
     {
         $this->authorizeAccess($proyecto);
 
@@ -39,8 +39,14 @@ class GastoGeneralController extends Controller
         ]);
 
         $comprobantePath = null;
-        if ($request->hasFile('comprobante')) {
+        /*if ($request->hasFile('comprobante')) {
             $comprobantePath = $request->file('comprobante')->store('comprobantes/gastos', 'public');
+        }*/
+        if ($request->hasFile('comprobante')) {
+
+            $url = $cloudinary->upload($request->file('comprobante'),'comprobantes/gastos/' . $proyecto->id );
+
+            $comprobantePath = $url;
         }
 
         GastoGeneral::create([
@@ -68,7 +74,7 @@ class GastoGeneralController extends Controller
         return view('gastos.edit', compact('proyecto', 'gasto', 'categorias'));
     }
 
-    public function update(Request $request, Proyecto $proyecto, GastoGeneral $gasto)
+    public function update(Request $request, Proyecto $proyecto, GastoGeneral $gasto,  CloudinaryService $cloudinary)
     {
         $this->authorizeAccess($proyecto);
         if ($gasto->proyecto_id !== $proyecto->id) {
@@ -85,11 +91,17 @@ class GastoGeneralController extends Controller
         ]);
 
         $comprobantePath = $gasto->comprobante;
-        if ($request->hasFile('comprobante')) {
+        /*if ($request->hasFile('comprobante')) {
             if ($gasto->comprobante) {
                 Storage::disk('public')->delete($gasto->comprobante);
             }
             $comprobantePath = $request->file('comprobante')->store('comprobantes/gastos', 'public');
+        }*/
+        if ($request->hasFile('comprobante')) {
+
+            $url = $cloudinary->upload($request->file('comprobante'),'comprobantes/gastos/' . $proyecto->id );
+
+            $comprobantePath = $url;
         }
 
         $gasto->update([

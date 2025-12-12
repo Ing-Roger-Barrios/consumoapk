@@ -55,13 +55,13 @@
                         <div class="mb-4">
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Comprobante actual</label>
                             @if(pathinfo($beneficio->comprobante, PATHINFO_EXTENSION) === 'pdf')
-                                <a href="{{ asset('storage/' . $beneficio->comprobante) }}" target="_blank"
+                                <a href="{{ $beneficio->comprobante }}" target="_blank"
                                    class="text-blue-500 hover:underline">
                                     Ver documento PDF
                                 </a>
                             @else
-                                <a href="{{ asset('storage/' . $beneficio->comprobante) }}" target="_blank">
-                                    <img src="{{ asset('storage/' . $beneficio->comprobante) }}" 
+                                <a href="{{ $beneficio->comprobante }}" target="_blank">
+                                    <img src="{{ $beneficio->comprobante }}" 
                                          alt="Comprobante" class="w-32 h-32 object-cover rounded border mt-2">
                                 </a>
                             @endif

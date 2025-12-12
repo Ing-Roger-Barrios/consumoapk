@@ -59,7 +59,7 @@
                                             <td class="py-3 px-4">{{ number_format($material->total, 2) }}</td>
                                             <td class="py-3 px-4 text-center">
                                                 @if($material->comprobante)
-                                                    <a href="{{ asset('storage/' . $material->comprobante) }}" target="_blank"
+                                                    <a href="{{ $material->comprobante}}" target="_blank"
                                                         class="text-blue-500 hover:underline">Ver</a>
                                                 @else
                                                     <span class="text-gray-400">—</span>

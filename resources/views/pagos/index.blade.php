@@ -72,10 +72,10 @@
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         @if($pago->comprobante)
                                             @if(pathinfo($pago->comprobante, PATHINFO_EXTENSION) === 'pdf')
-                                                <a href="{{ asset('storage/' . $pago->comprobante) }}" target="_blank"
+                                                <a href="{{ $pago->comprobante }}" target="_blank"
                                                    class="text-blue-500 hover:underline">Ver PDF</a>
                                             @else
-                                                <a href="{{ asset('storage/' . $pago->comprobante) }}" target="_blank"
+                                                <a href="{{ $pago->comprobante }}" target="_blank"
                                                    class="text-blue-500 hover:underline">Ver imagen</a>
                                             @endif
                                         @else

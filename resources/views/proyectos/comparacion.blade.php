@@ -18,7 +18,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="flex justify-between items-center mb-6">
                 <h1 class="text-2xl font-semibold">Comparación: Contrato vs Ejecución</h1>
-                <a href="{{ route('proy.show', $proyecto) }}" 
+                <a href="{{ route('proy', $proyecto) }}" 
                     class="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 text-sm">
                     ← Volver al proyecto
                 </a>
@@ -77,18 +77,18 @@
                                         </td>
                                         <td class="px-2 py-3 text-right">{{ number_format($item['ejecucion']['cantidad'], 2) }}</td>
                                         <td class="px-2 py-3 text-right">{{ number_format($item['ejecucion']['precio'], 2) }}</td>
-                                        <td class="px-2 py-3 text-right font-semibold text-green-600 dark:text-green-400">
+                                        <td class="px-2 py-3 text-right font-semibold text-purple-700 dark:text-green-400">
                                             {{ number_format($item['ejecucion']['total'], 2) }}
                                         </td>
 
                                         <!-- Diferencias -->
-                                        <td class="px-2 py-3 text-right {{ $item['diferencias']['cantidad'] > 0 ? 'text-red-500' : 'text-green-500' }}">
+                                        <td class="px-2 py-3 text-right {{ $item['diferencias']['cantidad'] > 0 ?  'text-green-500':'text-red-500'  }}">
                                             {{ number_format($item['diferencias']['cantidad'], 2) }}
                                         </td>
-                                        <td class="px-2 py-3 text-right {{ $item['diferencias']['precio'] > 0 ? 'text-red-500' : 'text-green-500' }}">
+                                        <td class="px-2 py-3 text-right {{ $item['diferencias']['precio'] > 0 ? 'text-green-500':'text-red-500' }}">
                                             {{ number_format($item['diferencias']['precio'], 2) }}
                                         </td>
-                                        <td class="px-2 py-3 text-right font-semibold {{ $item['diferencias']['total'] > 0 ? 'text-red-600' : 'text-green-600' }}">
+                                        <td class="px-2 py-3 text-right font-semibold {{ $item['diferencias']['total'] > 0 ? 'text-green-500':'text-red-500' }}">
                                             {{ number_format($item['diferencias']['total'], 2) }}
                                         </td>
                                     </tr>
@@ -105,12 +105,12 @@
                                     <td></td>
                                     <td class="px-2 py-3 text-right"></td>
                                     <td></td>
-                                    <td class="px-2 py-3 text-right text-green-700 dark:text-green-400">
+                                    <td class="px-2 py-3 text-right text-purple-700 dark:text-purple-700">
                                         Bs {{ number_format($comparacion->sum('ejecucion.total'), 2) }}
                                     </td>
                                     <td></td>
                                     <td></td>
-                                    <td class="px-2 py-3 text-right {{ $comparacion->sum('diferencias.total') > 0 ? 'text-red-600' : 'text-green-600' }}">
+                                    <td class="px-2 py-3 text-right {{ $comparacion->sum('diferencias.total') > 0 ? 'text-green-600' :'text-red-600'   }}">
                                         Bs {{ number_format($comparacion->sum('diferencias.total'), 2) }}
                                     </td>
                                 </tr>

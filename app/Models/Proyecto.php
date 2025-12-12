@@ -74,4 +74,15 @@ class Proyecto extends Model
     {
         return $this->hasMany(IvaFactura::class);
     }
+    // Equipo y maquinaria contrato
+    public function equipoMaquinariaContrato()
+    {
+        return $this->hasMany(EquipoMaquinariaContrato::class);
+    }
+
+    // Equipo y maquinaria ejecucion
+    public function equipoMaquinariaEjecucion()
+    {
+        return $this->hasMany(EquipoMaquinariaEjecucion::class);
+    }
 }

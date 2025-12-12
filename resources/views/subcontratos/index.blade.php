@@ -40,7 +40,7 @@
                                     <!-- Enlace al contrato -->
                                     @if($subcontrato->contrato)
                                         <p class="text-sm mt-2">
-                                            <a href="{{ asset('storage/' . $subcontrato->contrato) }}" target="_blank"
+                                            <a href="{{ $subcontrato->contrato }}" target="_blank"
                                             class="text-green-600 hover:text-green-800 font-medium inline-flex items-center">
                                                 📄 Ver contrato
                                             </a>

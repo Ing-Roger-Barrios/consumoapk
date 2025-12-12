@@ -50,7 +50,7 @@
                                     <td class="px-6 py-4 whitespace-nowrap font-medium">{{ number_format($material->total, 2) }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         @if($material->comprobante)
-                                            <a href="{{ asset('storage/' . $material->comprobante) }}" target="_blank"
+                                            <a href="{{ $material->comprobante }}" target="_blank"
                                                 class="text-blue-500 hover:underline">Ver</a>
                                         @else
                                             <span class="text-gray-400">—</span>

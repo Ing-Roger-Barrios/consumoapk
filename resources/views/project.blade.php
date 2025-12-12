@@ -32,7 +32,7 @@
                             <div class=" ">
                                 <ul role="list" class="space-y-4 ">
 
-                                    <div class="bg-gray-50 dark:bg-gray-800 shadow-xl rounded-lg  hover:bg-gray-50 transition duration-150 ease-in-out px-4 py-2 mb-2">
+                                    <div class="bg-gray-100 dark:bg-gray-800 shadow-xl rounded-lg  hover:bg-gray-50 transition duration-150 ease-in-out px-4 py-2 mb-2">
                                         
                                             <li class="grid grid-cols-4 gap-2 items-center ">
                                                 <span class="col-span-2 text-body text-gray-900 truncate">
@@ -60,9 +60,9 @@
                                                 </div>
                                                  
                                                 <span class="col-span-1 text-body font-medium text-gray-600 text-right truncate">
-                                                    {{ number_format(($comparacion->sum('contrato.total') / $proyecto->monto) * 100, 2) }}%
+                                                    {{ number_format(($matCont / $proyecto->monto) * 100, 2) }}%
                                                 </span>
-                                                <span class="col-span-1 text-body font-medium text-gray-600 text-right truncate">Bs {{ number_format($comparacion->sum('contrato.total'), 2) }}</span>
+                                                <span class="col-span-1 text-body font-medium text-gray-600 text-right truncate">Bs {{ number_format($matCont, 2) }}</span>
                                                 
                                             </li>
                                             <div class=" ">
@@ -83,9 +83,9 @@
                                                     <span class="text-body text-gray-900">MANO DE OBRA</span>
                                                 </div>
                                                 <span class="col-span-1 text-body font-medium text-gray-600 text-right truncate">
-                                                    {{ number_format(($totalManoObraDirecta / $proyecto->monto) * 100, 2) }}%
+                                                    {{ number_format(($manodeobra / $proyecto->monto) * 100, 2) }}%
                                                 </span>
-                                                <span class="col-span-1 text-body font-medium text-gray-600 text-right">Bs {{number_format($totalManoObraDirecta, 2)}}</span>
+                                                <span class="col-span-1 text-body font-medium text-gray-600 text-right">Bs {{number_format($manodeobra, 2)}}</span>
                                             </li>
                                             <div class=" ">
                                                 <div class="grid grid-cols-4 gap-2 items-center">
@@ -98,20 +98,22 @@
                                     </div>
 
                                     <div class="bg-white dark:bg-gray-800 shadow-xl rounded-lg  hover:bg-gray-50 transition duration-150 ease-in-out px-4 py-2  mb-2">
-                                        <a href="#">
+                                        <a href="{{ route('equipo.contrato.index', $proyecto) }}">
                                             <li class="grid grid-cols-4 gap-2 items-center">
                                                 <div class="col-span-2 flex items-center text-body">
                                                     <svg class="w-5 h-5 shrink-0 text-fg-brand me-1.5 text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
                                                     <span class="text-body text-gray-900">EQUIPO Y MAQ.</span>
                                                 </div>
-                                                <span class="col-span-1 text-body font-medium text-gray-600 text-right"><!--porcentaje --></span>
-                                                <span class="col-span-1 text-body font-medium text-gray-600 text-right">Bs 0.00</span>
+                                                <span class="col-span-1 text-body font-medium text-gray-600 text-right truncate">
+                                                    {{ number_format(($totalHerrEquipo / $proyecto->monto) * 100, 2) }}%
+                                                </span>
+                                                <span class="col-span-1 text-body font-medium text-gray-600 text-right">Bs {{number_format($totalHerrEquipo, 2)}}</span>
                                             </li>
                                             <div class=" ">
                                                 <div class="grid grid-cols-4 gap-2 items-center">
                                                     <span class="col-span-2 text-body text-gray-300"> Equipo y Maq. Ejec.</span>
                                                     <span class="col-span-1 text-body font-medium text-gray-300 text-right"><!--porcentaje --></span>
-                                                    <span class="col-span-1 text-body font-medium text-gray-300 text-right">Bs 0.00</span>
+                                                    <span class="col-span-1 text-body font-medium text-gray-300 text-right">Bs {{number_format($proyecto->equipoMaquinariaEjecucion->sum('total'), 2)}}</span>
                                                 </div>
                                             </div>
                                         </a>
@@ -125,9 +127,9 @@
                                                     <span class="text-body text-gray-900">GASTOS GRAL.</span>
                                                 </div>
                                                 <span class="col-span-1 text-body font-medium text-gray-600 text-right">
-                                                    10%
+                                                    {{number_format(($gastosgral / $proyecto->monto) * 100, 2)}}%
                                                 </span>
-                                                <span class="col-span-1 text-body font-medium text-gray-600 text-right">Bs {{number_format($proyecto->monto * 0.10, 2)}}</span>
+                                                <span class="col-span-1 text-body font-medium text-gray-600 text-right">Bs {{number_format($gastosgral, 2)}}</span>
                                             </li>
                                             <div class=" ">
                                                 <div class="grid grid-cols-4 gap-2 items-center">
@@ -146,8 +148,8 @@
                                                     <svg class="w-5 h-5 shrink-0 text-fg-brand me-1.5 text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
                                                     <span class="text-body text-gray-900">BENEFICIOS SOC.</span>
                                                 </div>
-                                                <span class="col-span-1 text-body font-medium text-gray-600 text-right">5%</span>
-                                                <span class="col-span-1 text-body font-medium text-gray-600 text-right">Bs {{number_format($proyecto->monto * 0.05, 2)}}</span>
+                                                <span class="col-span-1 text-body font-medium text-gray-600 text-right">{{number_format(($beneficiosSoc / $proyecto->monto) * 100, 2)}}%</span>
+                                                <span class="col-span-1 text-body font-medium text-gray-600 text-right">Bs {{number_format($beneficiosSoc, 2)}}</span>
                                             </li>
                                             <div class=" ">
                                                 <div class="grid grid-cols-4 gap-2 items-center">
@@ -166,14 +168,14 @@
                                                     <svg class="w-5 h-5 shrink-0 text-fg-brand me-1.5 text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
                                                     <span class="text-body text-gray-900">UTILIDADES</span>
                                                 </div>
-                                                <span class="col-span-1 text-body font-medium text-gray-600 text-right">10%</span>
-                                                <span class="col-span-1 text-body font-medium text-gray-600 text-right">Bs {{number_format($proyecto->monto * 0.10, 2)}}</span>
+                                                <span class="col-span-1 text-body font-medium text-gray-600 text-right">{{number_format(($utilidad / $proyecto->monto) * 100, 2)}}%</span>
+                                                <span class="col-span-1 text-body font-medium text-gray-600 text-right">Bs {{number_format($utilidad, 2)}}</span>
                                             </li>
                                             <div class=" ">
                                                 <div class="grid grid-cols-4 gap-2 items-center">
                                                     <span class="col-span-2 text-body text-gray-300"> Utilidades</span>
                                                     <span class="col-span-1 text-body font-medium text-gray-300 text-right"><!--porcentaje --></span>
-                                                    <span class="col-span-1 text-body font-medium text-gray-300 text-right">Bs 10%</span>
+                                                    <span class="col-span-1 text-body font-medium text-gray-300 text-right"> </span>
                                                 </div>
                                             </div>
                                         </a>
@@ -186,8 +188,8 @@
                                                     <svg class="w-5 h-5 shrink-0 text-fg-brand me-1.5 text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
                                                     <span class="text-body text-gray-900">IT</span>
                                                 </div>
-                                                <span class="col-span-1 text-body font-medium text-gray-600 text-right">{{ $proyecto->it ? number_format($proyecto->it->porcentaje, 2) : '3.09' }}%</span>
-                                                <span class="col-span-1 text-body font-medium text-gray-600 text-right">Bs {{ $proyecto->it ? number_format($proyecto->it->monto, 2) : number_format($proyecto->monto * 0.0309, 2) }}</span>
+                                                <span class="col-span-1 text-body font-medium text-gray-600 text-right">{{  number_format(($it / $proyecto->monto) * 100, 2) }}%</span>
+                                                <span class="col-span-1 text-body font-medium text-gray-600 text-right">Bs {{ number_format($it, 2)}}</span>
                                             </li>
                                             <div class=" ">
                                                 <div class="grid grid-cols-4 gap-2 items-center">
@@ -206,8 +208,8 @@
                                                     <svg class="w-5 h-5 shrink-0 text-fg-brand me-1.5 text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
                                                     <span class="text-body text-gray-900">IVA</span>
                                                 </div>
-                                                <span class="col-span-1 text-body font-medium text-gray-600 text-right">{{ $proyecto->ivaFacturas->sum('porcentaje_iva') > 0 ? number_format($proyecto->ivaFacturas->avg('porcentaje_iva'), 2) : '14.94' }}%</span>
-                                                <span class="col-span-1 text-body font-medium text-gray-600 text-right">Bs {{number_format($proyecto->monto * (( $proyecto->ivaFacturas->sum('porcentaje_iva') > 0 ? number_format($proyecto->ivaFacturas->avg('porcentaje_iva'), 2) : '14.94')/100),2) }}</span>
+                                                <span class="col-span-1 text-body font-medium text-gray-600 text-right">{{ number_format(($iva / $proyecto->monto) * 100, 2) }}%</span>
+                                                <span class="col-span-1 text-body font-medium text-gray-600 text-right">Bs {{number_format($iva,2) }}</span>
                                             </li>
                                             <div class=" ">
                                                 <div class="grid grid-cols-4 gap-2 items-center">
@@ -219,15 +221,28 @@
                                         </a>
                                     </div>
 
+                                    <div class="bg-gray-100 dark:bg-gray-800 shadow-xl rounded-lg  hover:bg-gray-50 transition duration-150 ease-in-out px-4 py-2  mb-2">
+                                        <a href="#">
+                                            <li class="grid grid-cols-4 gap-2 items-center">
+                                                <div class="col-span-2 flex items-center text-body">
+                                                    <svg class="w-5 h-5 shrink-0 text-fg-brand me-1.5 text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+                                                    <span class="text-body text-gray-900">Total</span>
+                                                </div>
+                                                <span class="col-span-1 text-body font-medium text-gray-600 text-right">100%</span>
+                                                <span class="col-span-1 text-body font-medium text-gray-600 text-right">Bs {{number_format($proytotal,2) }}</span>
+                                            </li>
+                                            <div class=" ">
+                                                <div class="grid grid-cols-4 gap-2 items-center">
+                                                    <span class="col-span-2 text-body text-gray-300"> </span>
+                                                    <span class="col-span-1 text-body font-medium text-gray-300 text-right"><!--porcentaje --></span>
+                                                    <span class="col-span-1 text-body font-medium text-gray-300 text-right"> </span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+
                                 </ul>
                             </div>
-
-
-
-
-
-
-
 
 
 

@@ -25,6 +25,7 @@
                             Mis Proyectos 
                             <span class="text-xs font-semibold uppercase text-gray-400">
                                 <a href="{{ route('newproy') }}"> - [CREAR NUEVO]</a>
+                                <a href="{{route('residents.index')}}">- [ADM RESIDENTES]</a>
                             </span>
                         @else
                             Proyectos Asignados
