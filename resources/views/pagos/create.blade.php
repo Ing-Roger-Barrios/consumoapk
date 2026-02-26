@@ -1,13 +1,11 @@
 <x-app-layout>
     <div class="py-6">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-            <div class="mb-4">
-                <a href="{{ route('pagos.index', $subcontrato) }}" 
-                   class="text-blue-600 hover:text-blue-800">
-                    ← Volver a pagos
-                </a>
-            </div>
-            <h1 class="text-2xl font-semibold mb-6">Registrar Pago - {{ $subcontrato->nombre }}</h1>
+            
+            <h1 class="text-2xl font-semibold mb-6">
+                <x-back-button :href="route('pagos.index', $subcontrato)" label=""/>
+                Registrar Pago 
+            </h1>
 
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
                 <form action="{{ route('pagos.store', $subcontrato) }}" method="POST" enctype="multipart/form-data">

@@ -2,7 +2,10 @@
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="flex justify-between items-center mb-6">
-                <h1 class="text-2xl font-semibold">Mano de Obra Pres. - {{ $proyecto->nombre }}</h1>
+                <h1 class="text-2xl font-semibold">
+                    <x-back-button :href="route('proy', $proyecto)" label=""/>
+                    Mano de Obra Pres.
+                </h1>
                 <a href="{{ route('subcontratos.index', $proyecto) }}"
                     class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-green-700">
                     Subcontrato

@@ -7,6 +7,7 @@ use App\Models\PagoSubcontrato;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Services\CloudinaryService;
 
 
 class PagoSubcontratoController extends Controller
@@ -33,7 +34,7 @@ class PagoSubcontratoController extends Controller
     /**
      * Guarda un nuevo pago.
      */
-    public function store(Request $request, Subcontrato $subcontrato)
+    public function store(Request $request, Subcontrato $subcontrato,  CloudinaryService $cloudinary)
     {
         $this->authorizeAccess($subcontrato);
 
@@ -52,8 +53,14 @@ class PagoSubcontratoController extends Controller
         ]);
 
         $comprobantePath = null;
-        if ($request->hasFile('comprobante')) {
+        /*if ($request->hasFile('comprobante')) {
             $comprobantePath = $request->file('comprobante')->store('comprobantes/pagos', 'public');
+        }*/
+        if ($request->hasFile('comprobante')) {
+
+            $url = $cloudinary->upload($request->file('comprobante'),'comprobantes/pagos/' . $subcontrato->id );
+
+            $comprobantePath = $url;
         }
 
         PagoSubcontrato::create([
@@ -84,7 +91,7 @@ class PagoSubcontratoController extends Controller
     /**
      * Actualiza un pago existente.
      */
-    public function update(Request $request, Subcontrato $subcontrato, PagoSubcontrato $pago)
+    public function update(Request $request, Subcontrato $subcontrato, PagoSubcontrato $pago,  CloudinaryService $cloudinary)
     {
         $this->authorizeAccess($subcontrato);
         if ($pago->subcontrato_id !== $subcontrato->id) {
@@ -111,11 +118,17 @@ class PagoSubcontratoController extends Controller
         ]);
 
         $comprobantePath = $pago->comprobante;
-        if ($request->hasFile('comprobante')) {
+        /*if ($request->hasFile('comprobante')) {
             if ($pago->comprobante) {
                 Storage::disk('public')->delete($pago->comprobante);
             }
             $comprobantePath = $request->file('comprobante')->store('comprobantes/pagos', 'public');
+        }*/
+        if ($request->hasFile('comprobante')) {
+
+            $url = $cloudinary->upload($request->file('comprobante'),'comprobantes/pagos/' . $subcontrato->id );
+
+            $comprobantePath = $url;
         }
 
         $pago->update([

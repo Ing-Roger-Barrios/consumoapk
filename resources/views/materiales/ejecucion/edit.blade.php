@@ -15,7 +15,10 @@
 
             {{-- ✅ Mensajes de sesión aquí --}}
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-            <h1 class="text-2xl font-semibold mb-6">Editar Material en Ejecución</h1>
+            <h1 class="text-2xl font-semibold mb-6">
+                <x-back-button :href="route('mat.compra', [$proyecto,  $material->descripcion,  $material->unidad])" label=""/>
+                Editar Mat. en Ejecución
+            </h1>
 
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
                 <form action="{{ route('materiales.ejecucion.update', [$proyecto, $material]) }}" method="POST" enctype="multipart/form-data">
@@ -62,7 +65,7 @@
                     @if($material->comprobante)
                         <div class="mb-4">
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Comprobante actual</label>
-                            <a href="{{ asset('storage/' . $material->comprobante) }}" target="_blank"
+                            <a href="{{ $material->comprobante }}" target="_blank"
                                 class="text-blue-500 hover:underline">
                                 Ver archivo
                             </a>
@@ -87,7 +90,7 @@
 
                     <!-- Botones -->
                     <div class="flex justify-between space-x-3">
-                        <a href="{{ route('materiales.ejecucion.index', $proyecto) }}" 
+                        <a href="{{ route('mat.compra', [$proyecto,  $material->descripcion,  $material->unidad]) }}" 
                             class="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600">
                             Cancelar
                         </a>

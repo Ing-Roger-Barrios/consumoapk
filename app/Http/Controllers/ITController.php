@@ -7,6 +7,7 @@ use App\Models\IT;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Services\CloudinaryService;
 
 
 class ITController extends Controller
@@ -24,7 +25,7 @@ class ITController extends Controller
         return view('it.edit', compact('proyecto', 'it'));
     }
 
-    public function update(Request $request, Proyecto $proyecto)
+    public function update(Request $request, Proyecto $proyecto,  CloudinaryService $cloudinary)
     {
         $this->authorizeAccess($proyecto);
 
@@ -40,11 +41,17 @@ class ITController extends Controller
         );
 
         $comprobantePath = $it->comprobante;
-        if ($request->hasFile('comprobante')) {
+        /*if ($request->hasFile('comprobante')) {
             if ($it->comprobante) {
                 Storage::disk('public')->delete($it->comprobante);
             }
             $comprobantePath = $request->file('comprobante')->store('comprobantes/it', 'public');
+        }*/
+        if ($request->hasFile('comprobante')) {
+
+            $url = $cloudinary->upload($request->file('comprobante'),'comprobantes/it/' . $proyecto->id );
+
+            $comprobantePath = $url;
         }
 
         $it->update([

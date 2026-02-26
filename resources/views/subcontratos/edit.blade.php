@@ -1,7 +1,10 @@
 <x-app-layout>
     <div class="py-6">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-            <h1 class="text-2xl font-semibold mb-6">Editar Subcontrato</h1>
+            <h1 class="text-2xl font-semibold mb-6">
+                <x-back-button :href="route('subcontratos.index', $proyecto)" label=""/>
+                Editar Subcontrato
+            </h1>
 
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
                 <form action="{{ route('subcontratos.update', [$proyecto, $subcontrato]) }}" method="POST">

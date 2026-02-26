@@ -7,6 +7,7 @@ use App\Models\IvaFactura;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Services\CloudinaryService;
 
 class IvaFacturaController extends Controller
 {
@@ -23,7 +24,7 @@ class IvaFacturaController extends Controller
         return view('iva.create', compact('proyecto'));
     }
 
-    public function store(Request $request, Proyecto $proyecto)
+    public function store(Request $request, Proyecto $proyecto , CloudinaryService $cloudinary)
     {
         $this->authorizeAccess($proyecto);
 
@@ -37,8 +38,14 @@ class IvaFacturaController extends Controller
         ]);
 
         $comprobantePath = null;
-        if ($request->hasFile('comprobante')) {
+        /*if ($request->hasFile('comprobante')) {
             $comprobantePath = $request->file('comprobante')->store('comprobantes/iva', 'public');
+        }*/
+        if ($request->hasFile('comprobante')) {
+
+            $url = $cloudinary->upload($request->file('comprobante'),'comprobantes/iva/' . $proyecto->id );
+
+            $comprobantePath = $url;
         }
 
         IvaFactura::create([
@@ -66,7 +73,7 @@ class IvaFacturaController extends Controller
         return view('iva.edit', compact('proyecto', 'factura'));
     }
 
-    public function update(Request $request, Proyecto $proyecto, IvaFactura $factura)
+    public function update(Request $request, Proyecto $proyecto, IvaFactura $factura, CloudinaryService $cloudinary)
     {
         $this->authorizeAccess($proyecto);
         if ($factura->proyecto_id !== $proyecto->id) {
@@ -83,11 +90,17 @@ class IvaFacturaController extends Controller
         ]);
 
         $comprobantePath = $factura->comprobante;
-        if ($request->hasFile('comprobante')) {
+        /*if ($request->hasFile('comprobante')) {
             if ($factura->comprobante) {
                 Storage::disk('public')->delete($factura->comprobante);
             }
             $comprobantePath = $request->file('comprobante')->store('comprobantes/iva', 'public');
+        }*/
+        if ($request->hasFile('comprobante')) {
+
+            $url = $cloudinary->upload($request->file('comprobante'),'comprobantes/iva/' . $proyecto->id );
+
+            $comprobantePath = $url;
         }
 
         $factura->update([

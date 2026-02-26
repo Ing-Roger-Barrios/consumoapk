@@ -1,13 +1,11 @@
 <x-app-layout>
     <div class="py-6">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-            <div class="mb-4">
-                <a href="{{ route('gastos.index', $proyecto) }}" 
-                   class="text-blue-600 hover:text-blue-800">
-                    ← Volver a gastos
-                </a>
-            </div>
-            <h1 class="text-2xl font-semibold mb-6">Editar Gasto General</h1>
+             
+            <h1 class="text-2xl font-semibold mb-6">
+                <x-back-button :href="route('gastos.index', $proyecto)" label=""/>
+                Editar Gasto General
+            </h1>
 
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
                 <form action="{{ route('gastos.update', [$proyecto, $gasto]) }}" method="POST" enctype="multipart/form-data">
@@ -64,13 +62,13 @@
                         <div class="mb-4">
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Comprobante actual</label>
                             @if(pathinfo($gasto->comprobante, PATHINFO_EXTENSION) === 'pdf')
-                                <a href="{{ asset('storage/' . $gasto->comprobante) }}" target="_blank"
+                                <a href="{{ $gasto->comprobante }}" target="_blank"
                                    class="text-blue-500 hover:underline">
                                     Ver documento PDF
                                 </a>
                             @else
-                                <a href="{{ asset('storage/' . $gasto->comprobante) }}" target="_blank">
-                                    <img src="{{ asset('storage/' . $gasto->comprobante) }}" 
+                                <a href="{{ $gasto->comprobante }}" target="_blank">
+                                    <img src="{{$gasto->comprobante }}" 
                                          alt="Comprobante" class="w-32 h-32 object-cover rounded border mt-2">
                                 </a>
                             @endif

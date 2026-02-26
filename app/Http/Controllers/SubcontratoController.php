@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Session\Store;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Services\CloudinaryService;
 
 class SubcontratoController extends Controller
 {
@@ -24,39 +25,45 @@ class SubcontratoController extends Controller
         return view('subcontratos.create', compact('proyecto'));
     }
 
-    public function store(Request $request, Proyecto $proyecto)
-{
-    $this->authorizeAccess($proyecto);
+    public function store(Request $request, Proyecto $proyecto,  CloudinaryService $cloudinary)
+    {
+        $this->authorizeAccess($proyecto);
 
-    $request->validate([
-        'nombre' => 'required|string|max:255',
-        'descripcion' => 'required|string|max:255',
-        'monto_acordado' => 'required|numeric|min:0',
-        'contrato' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:10240', // hasta 10MB
-        'notas' => 'nullable|string|max:500',
-    ]);
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'descripcion' => 'required|string|max:255',
+            'monto_acordado' => 'required|numeric|min:0',
+            'contrato' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:10240', // hasta 10MB
+            'notas' => 'nullable|string|max:500',
+        ]);
 
-    $contratoPath = null;
-    if ($request->hasFile('contrato')) {
-        $contratoPath = $request->file('contrato')->store('contratos/subcontratos'. $proyecto->id, 'public');
-         
+        $comprobantePath = null;
+        /*if ($request->hasFile('contrato')) {
+            $contratoPath = $request->file('contrato')->store('contratos/subcontratos'. $proyecto->id, 'public');
+            
+        }*/
+        if ($request->hasFile('comprobante')) {
+
+            $url = $cloudinary->upload($request->file('comprobante'),'comprobantes/proyectos/' . $proyecto->id );
+
+            $comprobantePath = $url;
+        }
+
+        Subcontrato::create([
+            'proyecto_id' => $proyecto->id,
+            'nombre' => $request->nombre,
+            'descripcion' => $request->descripcion,
+            'monto_acordado' => $request->monto_acordado,
+            'contrato' => $comprobantePath,
+            'notas' => $request->notas,
+        ]);
+
+        return redirect()
+            ->route('subcontratos.index', $proyecto)
+            ->with('success', 'Subcontrato registrado exitosamente.');
     }
 
-    Subcontrato::create([
-        'proyecto_id' => $proyecto->id,
-        'nombre' => $request->nombre,
-        'descripcion' => $request->descripcion,
-        'monto_acordado' => $request->monto_acordado,
-        'contrato' => $contratoPath,
-        'notas' => $request->notas,
-    ]);
-
-    return redirect()
-        ->route('subcontratos.index', $proyecto)
-        ->with('success', 'Subcontrato registrado exitosamente.');
-}
-
-public function update(Request $request, Proyecto $proyecto, Subcontrato $subcontrato)
+public function update(Request $request, Proyecto $proyecto, Subcontrato $subcontrato,  CloudinaryService $cloudinary)
 {
     $this->authorizeAccess($proyecto);
     if ($subcontrato->proyecto_id !== $proyecto->id) {
@@ -71,22 +78,28 @@ public function update(Request $request, Proyecto $proyecto, Subcontrato $subcon
         'notas' => 'nullable|string|max:500',
     ]);
 
-    $contratoPath = $subcontrato->contrato; // Mantener el existente
+    $comprobantePath = $subcontrato->contrato; // Mantener el existente
     
     // Si se sube un nuevo contrato
-    if ($request->hasFile('contrato')) {
+    /*if ($request->hasFile('contrato')) {
         // Eliminar el anterior si existe
         if ($subcontrato->contrato) {
             Storage::disk('public')->delete($subcontrato->contrato);
         }
         $contratoPath = $request->file('contrato')->store('contratos/subcontratos', 'public');
+    }*/
+    if ($request->hasFile('comprobante')) {
+
+        $url = $cloudinary->upload($request->file('comprobante'),'comprobantes/subcontratos/' . $proyecto->id );
+
+        $comprobantePath = $url;
     }
 
     $subcontrato->update([
         'nombre' => $request->nombre,
         'descripcion' => $request->descripcion,
         'monto_acordado' => $request->monto_acordado,
-        'contrato' => $contratoPath,
+        'contrato' => $comprobantePath,
         'notas' => $request->notas,
     ]);
 

@@ -19,6 +19,7 @@ class MaterialEjecucion extends Model
         'precio_unit',
         'total',
         'comprobante',
+         
     ];
 
     public function proyecto()

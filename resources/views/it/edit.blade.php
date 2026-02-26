@@ -1,10 +1,11 @@
 <x-app-layout>
     <div class="py-6">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-            <div class="mb-4">
-                
-            </div>
-            <h1 class="text-2xl font-semibold mb-6">Impuesto a las Transferencias (IT)</h1>
+
+            <h1 class="text-2xl font-semibold mb-6">
+                <x-back-button :href="route('proy', $proyecto)" label=""/>
+                Impuesto a las Transferencias (IT)
+            </h1>
 
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
                 <div class="mb-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
@@ -64,13 +65,13 @@
                         <div class="mb-4">
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Comprobante actual</label>
                             @if(pathinfo($it->comprobante, PATHINFO_EXTENSION) === 'pdf')
-                                <a href="{{ asset('storage/' . $it->comprobante) }}" target="_blank"
+                                <a href="{{ $it->comprobante }}" target="_blank"
                                    class="text-blue-500 hover:underline">
                                     Ver documento PDF
                                 </a>
                             @else
-                                <a href="{{ asset('storage/' . $it->comprobante) }}" target="_blank">
-                                    <img src="{{ asset('storage/' . $it->comprobante) }}" 
+                                <a href="{{ $it->comprobante }}" target="_blank">
+                                    <img src="{{ $it->comprobante }}" 
                                          alt="Comprobante" class="w-32 h-32 object-cover rounded border mt-2">
                                 </a>
                             @endif

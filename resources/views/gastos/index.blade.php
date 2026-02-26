@@ -1,12 +1,7 @@
 <x-app-layout>
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="flex items-center mb-6">
-                <a href="{{ route('proy', $proyecto) }}" class="text-blue-600 hover:text-blue-800 mx-4">
-                    ← Volver
-                </a>
-                <h1 class="text-2xl font-semibold">Gastos Generales - {{ $proyecto->nombre }}</h1>
-            </div>
+            
 
             @if(session('success'))
                 <div class="mb-4 px-4 py-3 bg-green-100 border border-green-400 text-green-700 rounded-lg dark:bg-green-900/30 dark:border-green-700 dark:text-green-200">
@@ -15,7 +10,10 @@
             @endif
 
             <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-semibold">Registro de Gastos</h2>
+                <h2 class="text-xl font-semibold">
+                    <x-back-button :href="route('proy', $proyecto)" label=""/>
+                    Registro de Gastos
+                </h2>
                 <a href="{{ route('gastos.create', $proyecto) }}" 
                    class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
                     + Registrar Gasto
@@ -55,17 +53,17 @@
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         @if($gasto->comprobante)
                                             @if(pathinfo($gasto->comprobante, PATHINFO_EXTENSION) === 'pdf')
-                                                <a href="{{ asset('storage/' . $gasto->comprobante) }}" target="_blank"
+                                                <a href="{{ $gasto->comprobante }}" target="_blank"
                                                    class="text-blue-500 hover:underline">Ver PDF</a>
                                             @else
-                                                <a href="{{ asset('storage/' . $gasto->comprobante) }}" target="_blank"
+                                                <a href="{{$gasto->comprobante }}" target="_blank"
                                                    class="text-blue-500 hover:underline">Ver imagen</a>
                                             @endif
                                         @else
                                             <span class="text-gray-400">—</span>
                                         @endif
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
                                         <a href="{{ route('gastos.edit', [$proyecto, $gasto]) }}" 
                                            class="text-yellow-500 hover:text-yellow-600 mr-3">
                                             ✏️

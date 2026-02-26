@@ -19,6 +19,24 @@
 
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <h1 class="text-2xl font-semibold mb-4 px-8">
+
+                <a href="{{ url()->previous()  }}"
+                    class="inline-flex items-center gap-2 px-4 py-2  
+                            text-sm font-medium text-white
+                            bg-gray-500 rounded-lg
+                            hover:bg-gray-600 
+                            transition-all duration-200 shadow-sm">
+                        
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 19l-7-7 7-7" />
+                        </svg>
+
+                        Volver
+                </a>
+
+
                 {{ isset($proyecto) ? 'Editar Proyecto' : 'Crear Nuevo Proyecto' }}
             </h1>
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">

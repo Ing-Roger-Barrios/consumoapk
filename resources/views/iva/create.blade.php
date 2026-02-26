@@ -1,13 +1,12 @@
 <x-app-layout>
-    <div class="py-6">
+    <div class="py-3">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-            <div class="mb-4">
-                <a href="{{ route('iva.index', $proyecto) }}" 
-                   class="text-blue-600 hover:text-blue-800">
-                    ← Volver a facturas IVA
-                </a>
-            </div>
-            <h1 class="text-2xl font-semibold mb-6">Registrar Factura IVA</h1>
+            
+            <h1 class="text-2xl font-semibold mb-6">
+                <x-back-button :href="route('iva.index', $proyecto)" label=""/>
+                
+                Registrar Factura IVA
+            </h1>
 
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
                 <form action="{{ route('iva.store', $proyecto) }}" method="POST" enctype="multipart/form-data">

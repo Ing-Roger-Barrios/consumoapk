@@ -74,4 +74,60 @@ class Proyecto extends Model
     {
         return $this->hasMany(IvaFactura::class);
     }
+    // Equipo y maquinaria contrato
+    public function equipoMaquinariaContrato()
+    {
+        return $this->hasMany(EquipoMaquinariaContrato::class);
+    }
+
+    // Equipo y maquinaria ejecucion
+    public function equipoMaquinariaEjecucion()
+    {
+        return $this->hasMany(EquipoMaquinariaEjecucion::class);
+    }
+    public function planillasPago()
+    {
+        return $this->hasMany(PlanillaPago::class, 'proyecto_id');
+    }
+    // Todos los trabajadores del proyecto (jornal + ítem)
+    public function trabajadores()
+    {
+        return $this->belongsToMany(Trabajador::class, 'proyecto_trabajador')
+                    ->withPivot('tipo')
+                    ->withTimestamps();
+    }
+
+    // Solo trabajadores de jornal
+    public function trabajadoresJornal()
+    {
+        return $this->belongsToMany(Trabajador::class, 'proyecto_trabajador')
+                    ->withPivot('tipo')
+                    ->wherePivot('tipo', 'jornal')
+                    ->withTimestamps();
+    }
+
+    // Solo trabajadores por ítem
+    public function trabajadoresItem()
+    {
+        return $this->belongsToMany(Trabajador::class, 'proyecto_trabajador')
+                    ->withPivot('tipo')
+                    ->wherePivot('tipo', 'item')
+                    ->withTimestamps();
+    }
+
+    // Planillas semanales de jornal
+    public function planillasJornal()
+    {
+        return $this->hasMany(PlanillaJornal::class);
+    }
+    public function manoObraModulos()
+    {
+        return $this->hasMany(ManoObraModulo::class);
+    }
+
+    public function manoObraItems()
+    {
+        return $this->hasMany(ManoObraItem::class);
+    }
+
 }

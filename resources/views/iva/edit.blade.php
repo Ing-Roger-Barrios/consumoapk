@@ -1,13 +1,12 @@
 <x-app-layout>
-    <div class="py-6">
+    <div class="py-3">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-            <div class="mb-4">
-                <a href="{{ route('iva.index', $proyecto) }}" 
-                   class="text-blue-600 hover:text-blue-800">
-                    ← Volver a facturas IVA
-                </a>
-            </div>
-            <h1 class="text-2xl font-semibold mb-6">Editar Factura IVA</h1>
+            
+            <h1 class="text-2xl font-semibold mb-6">
+                <x-back-button :href="route('iva.index', $proyecto)" label=""/>
+                
+                Editar Factura IVA
+            </h1>
 
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
                 <form action="{{ route('iva.update', [$proyecto, $factura]) }}" method="POST" enctype="multipart/form-data">
@@ -72,13 +71,13 @@
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Comprobante actual</label>
                         @if($factura->comprobante)
                             @if(pathinfo($factura->comprobante, PATHINFO_EXTENSION) === 'pdf')
-                                <a href="{{ asset('storage/' . $factura->comprobante) }}" target="_blank"
+                                <a href="{{ $factura->comprobante }}" target="_blank"
                                    class="text-blue-500 hover:underline">
                                     Ver documento PDF
                                 </a>
                             @else
-                                <a href="{{ asset('storage/' . $factura->comprobante) }}" target="_blank">
-                                    <img src="{{ asset('storage/' . $factura->comprobante) }}" 
+                                <a href="{{ $factura->comprobante }}" target="_blank">
+                                    <img src="{{ $factura->comprobante }}" 
                                          alt="Comprobante" class="w-32 h-32 object-cover rounded border mt-2">
                                 </a>
                             @endif

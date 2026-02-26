@@ -17,7 +17,9 @@
             {{-- ✅ Mensajes de sesión aquí --}}
             
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <h1 class="text-2xl font-semibold mb-4 px-8">Compra de Mat.
+            <h1 class="text-2xl font-semibold mb-4 px-8">
+                <x-back-button :href="route('mat.list', $proyecto)" label=""/>
+                Compra de Mat.
                                 
                                     <a href="#" 
                                     data-modal-target="popup-modal" 
@@ -59,7 +61,7 @@
                                             <td class="py-3 px-4">{{ number_format($material->total, 2) }}</td>
                                             <td class="py-3 px-4 text-center">
                                                 @if($material->comprobante)
-                                                    <a href="{{ asset('storage/' . $material->comprobante) }}" target="_blank"
+                                                    <a href="{{ $material->comprobante}}" target="_blank"
                                                         class="text-blue-500 hover:underline">Ver</a>
                                                 @else
                                                     <span class="text-gray-400">—</span>

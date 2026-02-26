@@ -2,11 +2,11 @@
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="flex items-center mb-6">
-                <a href="{{ route('subcontratos.index', $subcontrato->proyecto) }}" 
-                   class="text-blue-600 hover:text-blue-800 mx-4">
-                    ← Volver 
-                </a>
-                <h1 class="text-2xl font-semibold">Pagos - {{ $subcontrato->nombre }}</h1>
+                
+                <h1 class="text-2xl font-semibold">
+                    <x-back-button :href="route('subcontratos.index', $subcontrato->proyecto)" label=""/>
+                    Pagos
+                </h1>
             </div>
 
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mb-6">
@@ -72,10 +72,10 @@
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         @if($pago->comprobante)
                                             @if(pathinfo($pago->comprobante, PATHINFO_EXTENSION) === 'pdf')
-                                                <a href="{{ asset('storage/' . $pago->comprobante) }}" target="_blank"
+                                                <a href="{{ $pago->comprobante }}" target="_blank"
                                                    class="text-blue-500 hover:underline">Ver PDF</a>
                                             @else
-                                                <a href="{{ asset('storage/' . $pago->comprobante) }}" target="_blank"
+                                                <a href="{{ $pago->comprobante }}" target="_blank"
                                                    class="text-blue-500 hover:underline">Ver imagen</a>
                                             @endif
                                         @else

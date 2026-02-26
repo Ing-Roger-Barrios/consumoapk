@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Proyecto;
 use App\Models\BeneficioSocial;
+use App\Services\CloudinaryService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -24,7 +25,7 @@ class BeneficioSocialController extends Controller
         return view('beneficios.create', compact('proyecto', 'tipos'));
     }
 
-    public function store(Request $request, Proyecto $proyecto)
+    public function store(Request $request, Proyecto $proyecto,  CloudinaryService $cloudinary)
     {
         $this->authorizeAccess($proyecto);
 
@@ -37,8 +38,14 @@ class BeneficioSocialController extends Controller
         ]);
 
         $comprobantePath = null;
-        if ($request->hasFile('comprobante')) {
+        /*if ($request->hasFile('comprobante')) {
             $comprobantePath = $request->file('comprobante')->store('comprobantes/beneficios', 'public');
+        }*/
+            if ($request->hasFile('comprobante')) {
+
+            $url = $cloudinary->upload($request->file('comprobante'),'comprobantes/beneficios/' . $proyecto->id );
+
+            $comprobantePath = $url;
         }
 
         BeneficioSocial::create([
@@ -65,7 +72,7 @@ class BeneficioSocialController extends Controller
         return view('beneficios.edit', compact('proyecto', 'beneficio', 'tipos'));
     }
 
-    public function update(Request $request, Proyecto $proyecto, BeneficioSocial $beneficio)
+    public function update(Request $request, Proyecto $proyecto, BeneficioSocial $beneficio,  CloudinaryService $cloudinary)
     {
         $this->authorizeAccess($proyecto);
         if ($beneficio->proyecto_id !== $proyecto->id) {
@@ -81,11 +88,17 @@ class BeneficioSocialController extends Controller
         ]);
 
         $comprobantePath = $beneficio->comprobante;
-        if ($request->hasFile('comprobante')) {
+        /*if ($request->hasFile('comprobante')) {
             if ($beneficio->comprobante) {
                 Storage::disk('public')->delete($beneficio->comprobante);
             }
             $comprobantePath = $request->file('comprobante')->store('comprobantes/beneficios', 'public');
+        }*/
+        if ($request->hasFile('comprobante')) {
+
+                 $url = $cloudinary->upload($request->file('comprobante'),'comprobantes/beneficios/' . $proyecto->id );
+
+            $comprobantePath = $url;
         }
 
         $beneficio->update([

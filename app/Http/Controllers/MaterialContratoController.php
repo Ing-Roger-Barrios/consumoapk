@@ -77,7 +77,7 @@ class MaterialContratoController extends Controller
     /**
      * Mostrar formulario de edición.
      */
-    public function edit(Proyecto $proyecto, MaterialContrato $material)
+    public function edit(Proyecto $proyecto, string $materialdesc)
     {
         $user = Auth::user();
         // Verificar si el usuario tiene acceso al proyecto
@@ -94,6 +94,11 @@ class MaterialContratoController extends Controller
         } else {
             abort(403, 'Acceso denegado');
         }
+
+       $material = $proyecto->materialesContrato()
+        ->where('descripcion', $materialdesc)
+        ->first();
+        
 
         return view('materiales.contrato.edit', compact('proyecto', 'material'));
     }
@@ -144,17 +149,16 @@ class MaterialContratoController extends Controller
     /**
      * Eliminar material de contrato.
      */
-    public function destroy(Proyecto $proyecto, MaterialContrato $material)
+    public function destroy(Proyecto $proyecto, string $materialdesc)
     {
         $user = Auth::user();
-        // Verificar si el usuario tiene acceso al proyecto
+
+        // 🔐 Validación de acceso al proyecto
         if ($user->role === 'contractor') {
-            // Solo puede ver sus propios proyectos
             if ($proyecto->user_id !== $user->id) {
                 abort(403, 'No tienes acceso a este proyecto');
             }
         } elseif ($user->role === 'resident') {
-            // Solo puede ver proyectos en los que está asignado
             if (!$proyecto->residentes()->where('users.id', $user->id)->exists()) {
                 abort(403, 'No tienes acceso a este proyecto');
             }
@@ -162,16 +166,23 @@ class MaterialContratoController extends Controller
             abort(403, 'Acceso denegado');
         }
 
-        if ($material->proyecto_id !== $proyecto->id) {
-            abort(403);
+        // 🔎 Buscar material por descripción DENTRO del proyecto
+        $material = $proyecto->materialesContrato()
+            ->where('descripcion', $materialdesc)
+            ->first();
+
+        if (!$material) {
+            abort(404, 'Material no encontrado');
         }
 
+        // 🗑 Eliminar
         $material->delete();
 
         return redirect()
-            ->route('materiales.contrato.index', $proyecto)
+            ->route('mat.list', $proyecto)
             ->with('success', 'Material de contrato eliminado exitosamente.');
     }
+
 
     /**
      * Listar materiales de contrato.

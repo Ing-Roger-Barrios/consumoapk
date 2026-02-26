@@ -15,7 +15,10 @@
 
             {{-- ✅ Mensajes de sesión aquí --}}
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-            <h1 class="text-2xl font-semibold mb-6">Editar Material de Contrato</h1>
+            <h1 class="text-2xl font-semibold mb-6">
+                <x-back-button :href="route('mat.list', $proyecto)" label=""/>
+                Editar Material de Contrato
+            </h1>
 
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
                 <form action="{{ route('materiales.contrato.update', [$proyecto, $material]) }}" method="POST">
@@ -68,7 +71,7 @@
 
                     <!-- Botones -->
                     <div class="flex justify-between space-x-3">
-                        <a href="{{ route('materiales.contrato.index', $proyecto) }}" 
+                        <a href="{{ route('mat.list', $proyecto) }}" 
                             class="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600">
                             Cancelar
                         </a>

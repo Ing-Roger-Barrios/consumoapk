@@ -1,13 +1,7 @@
 <x-app-layout>
-    <div class="py-6">
+    <div class="py-3">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="flex items-center mb-6">
-                <a href="{{ route('proy', $proyecto) }}" 
-                   class="text-blue-600 hover:text-blue-800 mx-4">
-                    ← Volver 
-                </a>
-                <h1 class="text-2xl font-semibold">Facturas IVA - {{ $proyecto->nombre }}</h1>
-            </div>
+            
 
             @if(session('success'))
                 <div class="mb-4 px-4 py-3 bg-green-100 border border-green-400 text-green-700 rounded-lg dark:bg-green-900/30 dark:border-green-700 dark:text-green-200">
@@ -16,7 +10,12 @@
             @endif
 
             <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-semibold">Registro de Facturas IVA</h2>
+                <h2 class="text-xl font-semibold"> 
+
+                    <x-back-button :href="route('proy', $proyecto)" label="" />
+
+                    Registro de Facturas IVA
+                </h2>
                 <a href="{{ route('iva.create', $proyecto) }}" 
                    class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 flex items-center">
                     <svg class="w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -75,10 +74,10 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-sm">
                                         @if($factura->comprobante)
                                             @if(pathinfo($factura->comprobante, PATHINFO_EXTENSION) === 'pdf')
-                                                <a href="{{ asset('storage/' . $factura->comprobante) }}" target="_blank"
+                                                <a href="{{ $factura->comprobante }}" target="_blank"
                                                    class="text-blue-500 hover:underline">Ver PDF</a>
                                             @else
-                                                <a href="{{ asset('storage/' . $factura->comprobante) }}" target="_blank"
+                                                <a href="{{ $factura->comprobante }}" target="_blank"
                                                    class="text-blue-500 hover:underline">Ver imagen</a>
                                             @endif
                                         @else
@@ -87,7 +86,7 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                         <div class="flex items-center justify-end space-x-2">
-                                            <!-- <a href="{{ route('iva.edit', [$proyecto, $factura]) }}" 
+                                             <a href="{{ route('iva.edit', [$proyecto, $factura]) }}" 
                                                class="text-yellow-500 hover:text-yellow-600">
                                                 ✏️
                                             </a>
@@ -100,7 +99,7 @@
                                                 <button type="submit" class="text-red-500 hover:text-red-600">
                                                     ❌
                                                 </button>
-                                            </form>-->
+                                            </form>
                                         </div>
                                     </td>
                                 </tr>

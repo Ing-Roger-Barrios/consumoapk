@@ -44,6 +44,10 @@ class ProfileController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
+        // Solo los contractors pueden eliminar sus propias cuentas
+        if (Auth::user()->role !== 'contractor') {
+            return redirect()->back()->withErrors(['No tienes permiso para eliminar esta cuenta.']);
+        }
         $request->validateWithBag('userDeletion', [
             'password' => ['required', 'current_password'],
         ]);

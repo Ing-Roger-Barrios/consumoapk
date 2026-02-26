@@ -2,7 +2,11 @@
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="flex justify-between items-center mb-6">
-                <h1 class="text-2xl font-semibold">Subcontratos - {{ $proyecto->nombre }}</h1>
+                <h1 class="text-2xl font-semibold" >
+                    <x-back-button :href="route('mano.obra.contrato.index', $proyecto)" label=""/>
+               Subcontratos 
+
+            </h1>
                 <a href="{{ route('subcontratos.create', $proyecto) }}" 
                    class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
                     + Nuevo Subcontrato
@@ -40,7 +44,7 @@
                                     <!-- Enlace al contrato -->
                                     @if($subcontrato->contrato)
                                         <p class="text-sm mt-2">
-                                            <a href="{{ asset('storage/' . $subcontrato->contrato) }}" target="_blank"
+                                            <a href="{{ $subcontrato->contrato }}" target="_blank"
                                             class="text-green-600 hover:text-green-800 font-medium inline-flex items-center">
                                                 📄 Ver contrato
                                             </a>
