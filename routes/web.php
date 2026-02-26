@@ -79,9 +79,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/proy/{proyecto}/mano-obra-contrato', [ManoObraContratoController::class, 'index'])->name('mano.obra.contrato.index');
     Route::get('/proy/{proyecto}/mano-obra-contrato/create', [ManoObraContratoController::class, 'create'])->name('mano.obra.contrato.create');
     Route::post('/proy/{proyecto}/mano-obra-contrato', [ManoObraContratoController::class, 'store'])->name('mano.obra.contrato.store');
+<<<<<<< HEAD
     Route::get('/proy/{proyecto}/mano-obra-contrato/{manoObraContrato}/edit', [ManoObraContratoController::class, 'edit'])->name('mano.obra.contrato.edit');
     Route::put('/proy/{proyecto}/mano-obra-contrato/{manoObraContrato}', [ManoObraContratoController::class, 'update'])->name('mano.obra.contrato.update');
     Route::delete('/proy/{proyecto}/mano-obra-contrato/{manoObraContrato}', [ManoObraContratoController::class, 'destroy'])->name('mano.obra.contrato.destroy');
+=======
+    Route::get('/proy/{proyecto}/mano-obra-contrato/{manoObra}/edit', [ManoObraContratoController::class, 'edit'])->name('mano.obra.contrato.edit');
+    Route::put('/proy/{proyecto}/mano-obra-contrato/{manoObra}', [ManoObraContratoController::class, 'update'])->name('mano.obra.contrato.update');
+    Route::delete('/proy/{proyecto}/mano-obra-contrato/{manoObra}', [ManoObraContratoController::class, 'destroy'])->name('mano.obra.contrato.destroy');
+>>>>>>> b92c1913736957a2b206b43dc016d8445eeff9fc
 
     // Subcontratos
     Route::get('/proy/{proyecto}/subcontratos', [SubcontratoController::class, 'index'])->name('subcontratos.index');
@@ -176,7 +182,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/proy/{proyecto}/equipo-contrato/{equipo}', [EquipoMaquinariaContratoController::class, 'destroy'])->name('equipo.contrato.destroy');
 
     // Equipo y maquinaria ejecucion
+<<<<<<< HEAD
     Route::get('/proy/{proyecto}/{descripcion}/{unidad}/equipo-ejecucion', [EquipoMaquinariaEjecucionController::class, 'index'])->name('equipo.ejecucion.index');
+=======
+    Route::get('/proy/{proyecto}/equipo-ejecucion', [EquipoMaquinariaEjecucionController::class, 'index'])->name('equipo.ejecucion.index');
+>>>>>>> b92c1913736957a2b206b43dc016d8445eeff9fc
     Route::get('/proy/{proyecto}/equipo-ejecucion/create', [EquipoMaquinariaEjecucionController::class, 'create'])->name('equipo.ejecucion.create');
     Route::post('/proy/{proyecto}/equipo-ejecucion', [EquipoMaquinariaEjecucionController::class, 'store'])->name('equipo.ejecucion.store');
     Route::get('/proy/{proyecto}/equipo-ejecucion/{equipo}/edit', [EquipoMaquinariaEjecucionController::class, 'edit'])->name('equipo.ejecucion.edit');
@@ -305,6 +315,10 @@ Route::middleware(['auth', ContractorMiddleware::class])->group(function () {
     Route::get('/residents/{resident}/edit', [ResidentController::class, 'edit'])->name('residents.edit');
     Route::put('/residents/{resident}', [ResidentController::class, 'update'])->name('residents.update');
     Route::delete('/residents/{resident}', [ResidentController::class, 'destroy'])->name('residents.destroy');
+<<<<<<< HEAD
+=======
+
+>>>>>>> b92c1913736957a2b206b43dc016d8445eeff9fc
 
     
 

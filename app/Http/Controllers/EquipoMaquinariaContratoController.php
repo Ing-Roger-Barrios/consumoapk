@@ -14,6 +14,7 @@ class EquipoMaquinariaContratoController extends Controller
     {
         $this->authorizeAccess($proyecto);
         $equipos = $proyecto->equipoMaquinariaContrato;
+<<<<<<< HEAD
         // Materiales de contrato: 1 por descripción
         $contrato = $proyecto->equipoMaquinariaContrato->keyBy('descripcion');
 
@@ -74,6 +75,9 @@ class EquipoMaquinariaContratoController extends Controller
 
 
         return view('equipo.contrato.index', compact('proyecto', 'comparacion', 'equipos'));
+=======
+        return view('equipo.contrato.index', compact('proyecto', 'equipos'));
+>>>>>>> b92c1913736957a2b206b43dc016d8445eeff9fc
     }
 
     public function create(Proyecto $proyecto)
@@ -112,6 +116,7 @@ class EquipoMaquinariaContratoController extends Controller
     /**
      * Muestra el formulario para editar un ítem existente.
      */
+<<<<<<< HEAD
     public function edit(Proyecto $proyecto, string $equipodesc)
     {
         $this->authorizeAccess($proyecto);
@@ -122,6 +127,15 @@ class EquipoMaquinariaContratoController extends Controller
         ->where('descripcion', $equipodesc)
         ->first();
 
+=======
+    public function edit(Proyecto $proyecto, EquipoMaquinariaContrato $equipo)
+    {
+        $this->authorizeAccess($proyecto);
+        // Verificar que el ítem pertenece al proyecto
+        if ($equipo->proyecto_id !== $proyecto->id) {
+            abort(403, 'Ítem no pertenece al proyecto');
+        }
+>>>>>>> b92c1913736957a2b206b43dc016d8445eeff9fc
         return view('equipo.contrato.edit', compact('proyecto', 'equipo'));
     }
 
@@ -160,6 +174,7 @@ class EquipoMaquinariaContratoController extends Controller
     /**
      * Elimina un ítem de equipo y maquinaria.
      */
+<<<<<<< HEAD
     public function destroy(Proyecto $proyecto, string $equipodesc)
     {
         $this->authorizeAccess($proyecto);
@@ -174,6 +189,15 @@ class EquipoMaquinariaContratoController extends Controller
         }
 
 
+=======
+    public function destroy(Proyecto $proyecto, EquipoMaquinariaContrato $equipo)
+    {
+        $this->authorizeAccess($proyecto);
+        if ($equipo->proyecto_id !== $proyecto->id) {
+            abort(403, 'Ítem no pertenece al proyecto');
+        }
+
+>>>>>>> b92c1913736957a2b206b43dc016d8445eeff9fc
         $equipo->delete();
 
         return redirect()

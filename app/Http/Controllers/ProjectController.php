@@ -131,7 +131,10 @@ class ProjectController extends Controller
             abort(403, 'Acceso denegado');
         }
 
+<<<<<<< HEAD
        
+=======
+>>>>>>> b92c1913736957a2b206b43dc016d8445eeff9fc
 
          // Materiales de contrato: 1 por descripción
         $contrato = $proyecto->materialesContrato->keyBy('descripcion');

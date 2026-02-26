@@ -85,6 +85,7 @@ class Proyecto extends Model
     {
         return $this->hasMany(EquipoMaquinariaEjecucion::class);
     }
+<<<<<<< HEAD
     public function planillasPago()
     {
         return $this->hasMany(PlanillaPago::class, 'proyecto_id');
@@ -130,4 +131,6 @@ class Proyecto extends Model
         return $this->hasMany(ManoObraItem::class);
     }
 
+=======
+>>>>>>> b92c1913736957a2b206b43dc016d8445eeff9fc
 }

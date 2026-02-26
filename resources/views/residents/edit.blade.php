@@ -68,7 +68,14 @@
                     </div>
 
                     <div class="flex items-center justify-end space-x-3">
+<<<<<<< HEAD
                         <x-back-button :href="url()->previous()" label="Cancelar"/>
+=======
+                        <a href="{{ route('residents.index') }}" 
+                           class="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600">
+                            Cancelar
+                        </a>
+>>>>>>> b92c1913736957a2b206b43dc016d8445eeff9fc
                         <x-primary-button>
                             {{ __('Actualizar Residente') }}
                         </x-primary-button>
