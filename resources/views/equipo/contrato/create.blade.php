@@ -1,14 +1,10 @@
 <x-app-layout>
     <div class="py-6">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-<<<<<<< HEAD
             <h1 class="text-2xl font-semibold mb-6">
                 <x-back-button :href="route('equipo.contrato.index', $proyecto)" label=""  />
                 Registrar Ítem de Equipo y Maquinaria
             </h1>
-=======
-            <h1 class="text-2xl font-semibold mb-6">Registrar Ítem de Equipo y Maquinaria</h1>
->>>>>>> b92c1913736957a2b206b43dc016d8445eeff9fc
 
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
                 <form action="{{ route('equipo.contrato.store', $proyecto) }}" method="POST">

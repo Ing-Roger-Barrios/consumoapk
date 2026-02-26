@@ -12,7 +12,6 @@ use App\Services\CloudinaryService;
 
 class EquipoMaquinariaEjecucionController extends Controller
 {
-<<<<<<< HEAD
     public function index(Proyecto $proyecto, string $descripcion, string $unidad)
     {
         $this->authorizeAccess($proyecto);
@@ -27,13 +26,6 @@ class EquipoMaquinariaEjecucionController extends Controller
 
         //return view('compramaterial', compact('proyecto', 'materiales', 'descripcion', 'unidad'));
         return view('equipo.ejecucion.index', compact('proyecto', 'equipos', 'descripcion', 'unidad'));
-=======
-    public function index(Proyecto $proyecto)
-    {
-        $this->authorizeAccess($proyecto);
-        $equipos = $proyecto->equipoMaquinariaEjecucion;
-        return view('equipo.ejecucion.index', compact('proyecto', 'equipos'));
->>>>>>> b92c1913736957a2b206b43dc016d8445eeff9fc
     }
 
     public function create(Proyecto $proyecto)
@@ -77,7 +69,6 @@ class EquipoMaquinariaEjecucionController extends Controller
             'notas' => $request->notas,
         ]);
 
-<<<<<<< HEAD
         $descripcion = $request->descripcion;
         $unidad = $request->unidad;
 
@@ -88,10 +79,6 @@ class EquipoMaquinariaEjecucionController extends Controller
                                     'unidad' => $unidad,
                                     'comprobante'=> $comprobantePath
                                 ])
-=======
-        return redirect()
-            ->route('equipo.ejecucion.index', $proyecto)
->>>>>>> b92c1913736957a2b206b43dc016d8445eeff9fc
             ->with('success', 'Equipo/Maquinaria ejecutado registrado exitosamente.');
     }
 
@@ -154,7 +141,6 @@ class EquipoMaquinariaEjecucionController extends Controller
             'comprobante' => $comprobantePath,
             'notas' => $request->notas,
         ]);
-<<<<<<< HEAD
         $descripcion = $request->descripcion;
         $unidad = $request->unidad;
         return redirect()
@@ -163,11 +149,6 @@ class EquipoMaquinariaEjecucionController extends Controller
                                     'descripcion' => $descripcion,
                                     'unidad' => $unidad
                                 ])
-=======
-
-        return redirect()
-            ->route('equipo.ejecucion.index', $proyecto)
->>>>>>> b92c1913736957a2b206b43dc016d8445eeff9fc
             ->with('success', 'Equipo/Maquinaria ejecutado actualizado exitosamente.');
     }
 
@@ -189,15 +170,11 @@ class EquipoMaquinariaEjecucionController extends Controller
         $equipo->delete();
 
         return redirect()
-<<<<<<< HEAD
             ->route('equipo.ejecucion.index', [
                                     'proyecto' => $proyecto,
                                     'descripcion' => $equipo->descripcion,
                                     'unidad' => $equipo->unidad
                                 ])
-=======
-            ->route('equipo.ejecucion.index', $proyecto)
->>>>>>> b92c1913736957a2b206b43dc016d8445eeff9fc
             ->with('success', 'Equipo/Maquinaria ejecutado eliminado exitosamente.');
     }
 

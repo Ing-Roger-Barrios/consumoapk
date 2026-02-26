@@ -2,21 +2,12 @@
     <div class="py-6">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
             <div class "mb-4">
-<<<<<<< HEAD
                 
             </div>
             <h1 class="text-2xl font-semibold mb-6">
                 <x-back-button :href="route('equipo.ejecucion.index', [$proyecto, $equipo->descripcion, $equipo->unidad])" label=""/>
                 Editar Equipo/Maquinaria Ejecutado
             </h1>
-=======
-                <a href="{{ route('equipo.ejecucion.index', $proyecto) }}" 
-                   class="text-blue-600 hover:text-blue-800">
-                    ← Volver a equipos ejecutados
-                </a>
-            </div>
-            <h1 class="text-2xl font-semibold mb-6">Editar Equipo/Maquinaria Ejecutado</h1>
->>>>>>> b92c1913736957a2b206b43dc016d8445eeff9fc
 
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
                 <form action="{{ route('equipo.ejecucion.update', [$proyecto, $equipo]) }}" method="POST" enctype="multipart/form-data">
@@ -116,14 +107,7 @@
 
                     <!-- Botones -->
                     <div class="flex justify-end space-x-3">
-<<<<<<< HEAD
                         <x-back-button :href="route('equipo.ejecucion.index', [$proyecto, $equipo->descripcion, $equipo->unidad])" label="Cancelar"/>
-=======
-                        <a href="{{ route('equipo.ejecucion.index', $proyecto) }}" 
-                            class="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600">
-                            Cancelar
-                        </a>
->>>>>>> b92c1913736957a2b206b43dc016d8445eeff9fc
                         <button type="submit" 
                             class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
                             Actualizar Equipo

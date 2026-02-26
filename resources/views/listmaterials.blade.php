@@ -105,7 +105,6 @@
                                                 <th class="px-4 py-2 text-left text-gray-900 dark:text-gray-200">Descripción</th>
                                                 <th class="px-4 py-2 text-right text-gray-900 dark:text-gray-200">Uni.</th>
                                                 <th class="px-4 py-2 text-right text-gray-900 dark:text-gray-200">Cant.</th>
-<<<<<<< HEAD
                                                 <th class="px-4 py-2 text-right text-gray-900 dark:text-gray-200">Precio_unit. (Bs)</th>
                                                 <th class="px-4 py-2 text-right text-gray-900 dark:text-gray-200">Total (Bs)</th>
                                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Acciones</th>
@@ -218,104 +217,11 @@
                                                         </div>
                                                     </td>
                                                     <td></td>
-=======
-                                                <th class="px-4 py-2 text-right text-gray-900 dark:text-gray-200">Precio_unit.</th>
-                                                <th class="px-4 py-2 text-right text-gray-900 dark:text-gray-200">Total</th>
-                                            </tr>
-                                        </thead>
-
-                                        <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-
-                                            @foreach($comparacion as $item)
-
-                                                @php
-                                                    $totalContrato = $item['contrato']['total'];
-                                                    $totalEjec = $item['ejecucion']['total'];
-
-                                                    // Porcentaje de avance
-                                                    $porcentaje = $totalContrato > 0 ? ($totalEjec / $totalContrato) * 100 : 0;
-                                                    $porcentaje = min($porcentaje, 100); // límite 100%
-
-                                                    if ($totalEjec == 0) {
-                                                        $color = 'text-gray-300';
-                                                        $bg   = 'bg-gray-50';
-                                                        $bar  = 'bg-gray-300';
-                                                    } elseif ($totalEjec < $totalContrato * 0.9) {
-                                                        $color = 'text-green-600';
-                                                        $bg   = 'bg-green-50';
-                                                        $bar  = 'bg-green-500';
-                                                    } elseif ($totalEjec < $totalContrato) {
-                                                        $color = 'text-red-400';
-                                                        $bg   = 'bg-red-50';
-                                                        $bar  = 'bg-red-400';
-                                                    } else {
-                                                        $color = 'text-red-700';
-                                                        $bg   = 'bg-red-100';
-                                                        $bar  = 'bg-red-700';
-                                                    }
-                                                @endphp
-
-                                                <!-- Fila principal: Contrato -->
-                                                <tr class="fila-item bg-white dark:bg-gray-800 hover:bg-gray-50 cursor-pointer"
-                                                    onclick="window.location='{{ route('mat.compra', ['proyecto' => $proyecto, 'descripcion' => $item['descripcion'], 'unidad' => $item['unidad']]) }}'">
-
-                                                    <td class="px-4 py-2 flex items-center text-gray-900">
-                                                        <span class="w-6 h-6 mr-2 flex items-center justify-center 
-                                                                    rounded-full bg-blue-600 text-white font-bold text-sm">
-                                                            {{ $loop->iteration }}
-                                                        </span>
-                                                        {{ $item['descripcion'] }}
-                                                    </td>
-
-                                                    <td class="px-4 py-2 text-right text-gray-600">{{ $item['unidad'] }}</td>
-                                                    <td class="px-4 py-2 text-right text-gray-600">{{ number_format($item['contrato']['cantidad'], 2) }}</td>
-                                                    <td class="px-4 py-2 text-right text-gray-600">{{ number_format($item['contrato']['precio'], 2) }}</td>
-                                                    <td class="px-4 py-2 text-right text-gray-600">{{ number_format($item['contrato']['total'], 2) }}</td>
-                                                </tr>
-
-                                                <!-- Fila secundaria: Ejecución con colores dinámicos -->
-                                                <tr class="fila-item {{ $bg }}"  onclick="window.location='{{ route('mat.compra', ['proyecto' => $proyecto, 'descripcion' => $item['descripcion'], 'unidad' => $item['unidad']]) }}'">
-                                                    <td class="px-4 py-1 {{ $color }}">
-                                                        {{ $item['descripcion'] }} Ejec.
-                                                    </td>
-
-                                                    <td class="px-4 py-1 text-right {{ $color }}">
-                                                        {{ $item['unidad'] }}
-                                                    </td>
-
-                                                    <td class="px-4 py-1 text-right {{ $color }}">
-                                                        {{ number_format($item['ejecucion']['cantidad'], 2) }}
-                                                    </td>
-
-                                                    <td class="px-4 py-1 text-right {{ $color }}">
-                                                        {{ number_format($item['ejecucion']['precio'], 2) }}
-                                                    </td>
-
-                                                    <td class="px-4 py-1 text-right {{ $color }}">
-                                                    <div class="w-full">
-                                                        <div class="text-right font-semibold">
-                                                            {{ number_format($item['ejecucion']['total'], 2) }}
-                                                        </div>
-
-                                                        <!-- Barra de progreso -->
-                                                        <div class="w-full bg-gray-200 rounded h-2 mt-1">
-                                                            <div class="{{ $bar }} h-2 rounded"
-                                                                style="width: {{ $porcentaje }}%">
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="text-xs text-right mt-1 {{ $color }}">
-                                                            {{ number_format($porcentaje, 0) }}%
-                                                        </div>
-                                                    </div>
-                                                </td>
->>>>>>> b92c1913736957a2b206b43dc016d8445eeff9fc
                                                 </tr>
 
                                             @endforeach
 
                                         </tbody>
-<<<<<<< HEAD
                                         <tfoot class="bg-gray-50 dark:bg-gray-700/50 font-bold">
                                             <tr>
                                                 <td colspan="4" class="px-6 py-3 text-right">TOTAL PRESUPUESTADO:</td>
@@ -326,17 +232,12 @@
                                                 <td></td>
                                             </tr>
                                         </tfoot>
-=======
->>>>>>> b92c1913736957a2b206b43dc016d8445eeff9fc
                                     </table>
                                 </div>
                             </div>
 
 
-<<<<<<< HEAD
                             
-=======
->>>>>>> b92c1913736957a2b206b43dc016d8445eeff9fc
                             
 
                         </div>
