@@ -22,7 +22,7 @@
                 <div class="grid grid-cols-3 gap-3">
                     <div>
                         <p class="text-xs text-blue-500 font-medium">Trabajador</p>
-                        <p class="font-semibold text-gray-800 dark:text-gray-100">{{ $asignacion->trabajador->nombre }}</p>
+                        <p class="font-semibold text-gray-800 dark:text-gray-100">{{ $asignacion->responsable_nombre }}</p>
                     </div>
                     <div>
                         <p class="text-xs text-blue-500 font-medium">Monto Acordado</p>

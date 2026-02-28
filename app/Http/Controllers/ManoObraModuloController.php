@@ -28,7 +28,7 @@ class ManoObraModuloController extends Controller
         $totalPresupuestado = $modulos->sum('total_presupuestado');
         $totalPagado        = $modulos->sum('total_pagado');
 
-        return view('mano-obra.modulos.index',
+        return view('mano-obra.modulos.Index',
             compact('proyecto', 'modulos', 'totalPresupuestado', 'totalPagado'));
     }
 

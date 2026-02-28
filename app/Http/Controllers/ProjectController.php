@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ManoObraModulo;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Proyecto;
 use App\Models\User;
@@ -237,6 +238,12 @@ class ProjectController extends Controller
         
         // Total de subcontratos
         $totalSubcontratos = $proyecto->subcontratos->sum('monto_acordado');
+        $modulos = ManoObraModulo::where('proyecto_id', $proyecto->id)
+            ->with(['items.asignaciones.avances'])
+            ->orderBy('orden')
+            ->get();
+
+        $totalPresupuestado = $modulos->sum('total_presupuestado');
 
         //total ejecutado
         $totalEjecutado =  $totalSubcontratos;       //$totalManoObraEjecucion +
@@ -246,7 +253,7 @@ class ProjectController extends Controller
         
 
 
-        return view('project', compact('proyecto', 'comparacion', 'totalManoObraDirecta', 'totalEjecutado', 
+        return view('project', compact('proyecto', 'comparacion','totalPresupuestado', 'totalManoObraDirecta', 'totalEjecutado', 
                     'facturas','matCont', 'manodeobra','beneficiosSoc', 'totalHerrEquipo', 'equipoMaqui', 'subtotal', 'gastosgral', 'utilidad', 'iva', 'it','proytotal'   ));
     }
     public function store(Request $request)

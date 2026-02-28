@@ -32,7 +32,7 @@
                            class="flex items-center justify-between w-full px-4 py-3 bg-blue-50 hover:bg-blue-100 dark:bg-blue-900/20 rounded-xl transition text-sm font-medium text-blue-700 dark:text-blue-300">
                             <span>📋 Planillas Semanales</span>
                             <span>→</span>
-                        </a>
+                        </a>                      
                     </div>
 
                     @php
@@ -87,6 +87,15 @@
 
             </div>
 
+            @php
+                $modulos = $proyecto->manoObraModulos()
+                    //->where('proyecto_id', $proyecto->id)
+                    ->with(['items.asignaciones.avances'])
+                    ->orderBy('orden')
+                    ->get();
+
+                $totalPresupuestado = $modulos->sum('total_presupuestado');
+            @endphp
             {{-- TOTAL CONSOLIDADO --}}
             <div class="mt-6 bg-gray-800 dark:bg-gray-900 rounded-2xl p-5 text-white">
                 <div class="flex justify-between items-center">
@@ -97,7 +106,7 @@
                     <div class="text-right">
                         <p class="text-sm text-gray-400">Presupuestado en contrato</p>
                         <p class="text-lg font-semibold text-yellow-400">
-                            Bs {{ number_format($proyecto->manoObraContrato->sum('monto_presupuestado'), 2) }}
+                            Bs {{ number_format($totalPresupuestado, 2) }}
                         </p>
                     </div>
                 </div>

@@ -15,6 +15,11 @@
                     <ul>@foreach($errors->all() as $e)<li>{{ $e }}</li>@endforeach</ul>
                 </div>
             @endif
+             @if(session('error'))
+                <div class="mb-4 px-4 py-3 bg-red-100 border border-red-400 text-red-700 rounded-lg text-sm">
+                    {{ session('error') }}
+                </div>
+            @endif
 
             @if($modulos->isEmpty())
                 <div class="bg-yellow-50 border border-yellow-300 text-yellow-700 rounded-xl p-5 text-sm">
@@ -102,9 +107,10 @@
                                 </option>
                             @endforeach
                         </select>
+                     
                         <p class="text-xs text-gray-400 mt-1">
                             No está en la lista?
-                            <a href="{{ route('jornal.trabajadores', $proyecto) }}" class="text-blue-500 hover:underline" target="_blank">Agregar trabajador</a>
+                            <a href="{{ route('jornal.trabajadores', $proyecto) }}" class="text-blue-500 hover:underline" target="_blank">Agregar trabajador</a>                           
                         </p>
                     </div>
 
@@ -165,5 +171,6 @@ function actualizarMonto(select) {
         document.getElementById('monto-input').value = parseFloat(opt.dataset.monto).toFixed(2);
     }
 }
+
 </script>
 </x-app-layout>

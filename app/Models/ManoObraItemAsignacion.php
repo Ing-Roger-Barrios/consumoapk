@@ -53,6 +53,8 @@ class ManoObraItemAsignacion extends Model
         return $this->belongsTo(Trabajador::class);
     }
 
+     
+
     public function avances()
     {
         return $this->hasMany(ManoObraItemAvance::class, 'asignacion_id');

@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Models\ManoObraItemAvance;
+use App\Models\ManoObraModulo;
 use App\Models\Proyecto;
 
 class LibroContableService
@@ -60,7 +62,14 @@ class LibroContableService
 
         // Mano de obra: si tienes mano_obra_ejecucion úsala; si no, usamos contrato como fallback
         // Cuando implementes mano_obra_ejecucion, cambia aquí.
-        $manoObra = $proyecto->manoObraContrato()->sum('monto_presupuestado');
+        $totalJornal = $proyecto->planillasJornal()
+                            ->with('detalles')
+                            ->get()
+                            ->sum(fn($p) => $p->detalles->sum(fn($d) => $d->total_neto));
+        $totalItem = ManoObraItemAvance::whereHas('asignacion', fn($q) => $q->where('proyecto_id', $proyecto->id))->sum('monto_pagar');
+
+        $manoObra = $totalJornal + $totalItem;
+        //$manoObra = $proyecto->manoObraContrato()->sum('monto_presupuestado');
 
         // Equipo y maquinaria en ejecución
         $equipo = $proyecto->equipoMaquinariaEjecucion()->sum('total');
@@ -83,7 +92,7 @@ class LibroContableService
         // IT (Impuesto a las Transferencias)
         $it = $proyecto->it ? $proyecto->it->monto : 0;
 
-        $total = $materiales + $manoObra + $equipo + $subcontratos
+        $total = $materiales + $manoObra + $equipo 
                + $gastos + $beneficios + $iva + $it;
 
         return [
@@ -91,7 +100,7 @@ class LibroContableService
                 ['concepto' => 'Materiales (Ejecución)',        'monto' => $materiales],
                 ['concepto' => 'Mano de Obra',                  'monto' => $manoObra],
                 ['concepto' => 'Equipo y Maquinaria',           'monto' => $equipo],
-                ['concepto' => 'Subcontratos (Pagos realizados)','monto' => $subcontratos],
+                //['concepto' => 'Subcontratos (Pagos realizados)','monto' => $subcontratos],
                 ['concepto' => 'Gastos Generales',              'monto' => $gastos],
                 ['concepto' => 'Beneficios Sociales',           'monto' => $beneficios],
                 ['concepto' => 'IVA Facturas',                  'monto' => $iva],
@@ -107,18 +116,24 @@ class LibroContableService
     private function calcularTotalContrato(Proyecto $proyecto): array
     {
         $materiales   = $proyecto->materialesContrato()->sum('total');
-        $manoObra     = $proyecto->manoObraContrato()->sum('monto_presupuestado');
+        $modulos = ManoObraModulo::where('proyecto_id', $proyecto->id)
+            ->with(['items.asignaciones.avances'])
+            ->orderBy('orden')
+            ->get();
+
+        $manoObra = $modulos->sum('total_presupuestado');
+        //$manoObra     = $proyecto->manoObraContrato()->sum('monto_presupuestado');
         $equipo       = $proyecto->equipoMaquinariaContrato()->sum('total');
         $subcontratos = $proyecto->subcontratos()->sum('monto_acordado');
 
-        $total = $materiales + $manoObra + $equipo + $subcontratos;
+        $total = $materiales + $manoObra + $equipo;// + $subcontratos;
 
         return [
             'detalle' => [
                 ['concepto' => 'Materiales (Contrato)',    'monto' => $materiales],
                 ['concepto' => 'Mano de Obra (Contrato)',  'monto' => $manoObra],
                 ['concepto' => 'Equipo y Maquinaria',      'monto' => $equipo],
-                ['concepto' => 'Subcontratos (Acordado)',  'monto' => $subcontratos],
+                //['concepto' => 'Subcontratos (Acordado)',  'monto' => $subcontratos],
             ],
             'total' => $total,
         ];

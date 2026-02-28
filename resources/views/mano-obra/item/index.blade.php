@@ -65,7 +65,7 @@
                                 </div>
                                 <p class="font-bold text-gray-800 dark:text-gray-100">{{ $titulo }}</p>
                                 <p class="text-sm text-gray-500">
-                                    Contratista: <span class="font-medium text-gray-700 dark:text-gray-300">{{ $asig->trabajador->nombre }}</span>
+                                     Contratista: <span class="font-medium text-gray-700 dark:text-gray-300">{{ $asig->trabajador->nombre }}</span>
                                     @if($asig->trabajador->cargo) · {{ $asig->trabajador->cargo }} @endif
                                 </p>
                                 @if($asig->notas)
@@ -94,6 +94,7 @@
                         <div class="flex items-center gap-3 flex-wrap">
                             <a href="{{ route('mano.obra.item.show', [$proyecto, $asig]) }}"
                                class="text-blue-600 text-sm hover:underline">Ver historial →</a>
+                            
                             @if($pct < 100)
                                 <a href="{{ route('mano.obra.item.create_avance', [$proyecto, $asig]) }}"
                                    class="bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-sm px-3 py-1 rounded-lg font-medium">

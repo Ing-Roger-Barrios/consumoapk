@@ -77,7 +77,7 @@ class ManoObraItemController extends Controller
         ];
 
         // Asegurar que el trabajador esté en el proyecto como tipo 'item'
-        $proyecto->trabajadores()->syncWithoutDetaching([
+         $proyecto->trabajadores()->syncWithoutDetaching([
             $request->trabajador_id => ['tipo' => 'item']
         ]);
 

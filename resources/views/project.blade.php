@@ -87,6 +87,16 @@
                             </a>
                         </li>
 
+                        @php
+                        $totalJornal = $proyecto->planillasJornal()
+                            ->with('detalles')
+                            ->get()
+                            ->sum(fn($p) => $p->detalles->sum(fn($d) => $d->total_neto));
+                        @endphp
+                        @php
+                            $totalItem = \App\Models\ManoObraItemAvance::whereHas('asignacion', fn($q) => $q->where('proyecto_id', $proyecto->id))->sum('monto_pagar');
+                        @endphp
+
                         {{-- MANO DE OBRA --}}
                         @php $r = itemRow('', '', $manodeobra, $totalEjecutado, $proyecto->monto); @endphp
                         <li>
@@ -100,10 +110,10 @@
                                     </div>
                                 </div>
                                 <div class="col-span-3 text-right">
-                                    <p class="text-sm font-medium text-gray-700">Bs {{ number_format($manodeobra, 2) }}</p>
+                                    <p class="text-sm font-medium text-gray-700">Bs {{ number_format($totalPresupuestado, 2) }}</p>
                                 </div>
                                 <div class="col-span-3 text-right">
-                                    <p class="text-sm font-medium {{ $r['pctColor'] }}">Bs {{ number_format($totalEjecutado, 2) }}</p>
+                                    <p class="text-sm font-medium {{ $r['pctColor'] }}">Bs {{ number_format($totalJornal + $totalItem, 2) }}</p>
                                 </div>
                                 <div class="col-span-2">
                                     <div class="flex items-center gap-1">
@@ -148,7 +158,7 @@
                             </a>
                         </li>
 
-                        {{-- SUBCONTRATOS --}}
+                        {{-- SUBCONTRATOS 
                         @php
                             $subContrato = $proyecto->subcontratos->sum('monto_acordado');
                             $subEjec = $proyecto->subcontratos->sum(fn($s) => $s->pagos->sum('monto_pagado'));
@@ -179,7 +189,7 @@
                                     </div>
                                 </div>
                             </a>
-                        </li>
+                        </li> --}}
 
                         {{-- GASTOS GENERALES --}}
                         @php $r = itemRow('', '', $gastosgral, $proyecto->gastosGenerales->sum('monto'), $proyecto->monto); @endphp
@@ -311,15 +321,19 @@
                                 <div class="col-span-4 flex items-center gap-2">
                                     <span class="text-lg">💹</span>
                                     <div>
-                                        <p class="font-semibold text-sm text-gray-800 dark:text-gray-100">Utilidades</p>
-                                        <p class="text-xs text-gray-400">{{ number_format(($utilidad / $proyecto->monto) * 100, 1) }}% del contrato</p>
+                                        <p class="font-semibold text-sm text-gray-900 dark:text-gray-100">Utilidades</p>
+                                        <p class="text-xs text-gray-900">{{ number_format(($utilidad / $proyecto->monto) * 100, 1) }}% del contrato</p>
                                     </div>
                                 </div>
                                 <div class="col-span-3 text-right">
+                                    @php
+                                    $totalUtilidad = $proyecto->monto - $ejMat-$totalJornal - $totalItem
+                                    -$ejEquipo - $ejGastos - $ejBen - $ejIT - $ejIva;
+                                    @endphp
                                     <p class="text-sm font-medium text-gray-700">Bs {{ number_format($utilidad, 2) }}</p>
                                 </div>
                                 <div class="col-span-3 text-right">
-                                    <p class="text-sm font-medium text-gray-400">—</p>
+                                    <p class="text-sm font-medium text-gray-400">Bs {{ number_format($totalUtilidad, 2) }}</p>
                                 </div>
                                 <div class="col-span-2"></div>
                             </div>
@@ -338,7 +352,7 @@
                                 </div>
                                 <div class="col-span-3 text-right">
                                     @php
-                                        $totalEjecucionGlobal = $ejMat + $totalEjecutado + $ejEquipo + $subEjec + $ejGastos + $ejBen + $ejIT + $ejIva;
+                                        $totalEjecucionGlobal = $ejMat + $totalJornal + $totalItem + $ejEquipo +  $ejGastos + $ejBen + $ejIT + $ejIva;
                                     @endphp
                                     <p class="text-sm font-bold text-blue-600">Bs {{ number_format($totalEjecucionGlobal, 2) }}</p>
                                     <p class="text-xs text-gray-400">Ejecutado</p>
